@@ -188,6 +188,7 @@ system_pm2_install() {
   npm install -g pm2
   pm2 startup ubuntu -u Sistemas
   env PATH=\$PATH:/usr/bin pm2 startup ubuntu -u Sistemas --hp /home/Sistemas/${instancia_add}
+  pm2 save
 EOF
 
   sleep 2
@@ -352,7 +353,7 @@ EOF
 #######################################
 system_suspend() {
   print_banner
-  printf "${WHITE} ⛔ Suspender Instancia...${GRAY_LIGHT}"
+  printf "${WHITE} ⛔ Suspendendo Instancia...${GRAY_LIGHT}"
   printf "\n\n"
 
   # Coloque aqui a lógica para suspender a instância específica do pm2
