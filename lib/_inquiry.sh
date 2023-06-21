@@ -47,6 +47,13 @@ get_instancia_add_delete() {
   read -p "> " instancia_add
 }
 
+get_instancia_add_suspend() {
+  print_banner
+  printf "${WHITE} 💻 Digite o nome da instância que deseja suspender:${GRAY_LIGHT}"
+  printf "\n\n"
+  read -p "> " instancia_add
+}
+
 get_urls() {
   get_instancia_add
   get_frontend_url
@@ -62,7 +69,13 @@ software_update() {
 }
 
 delete_system() {
+  get_instancia_add_delete
   system_delete
+}
+
+suspend_system() {
+  get_instancia_add_suspend
+  system_suspend
 }
 
 inquiry_options() {
@@ -80,8 +93,8 @@ inquiry_options() {
   case "${option}" in
     1) get_urls ;;
     2) software_update ;;
-    3) get_instancia_add_delete; system_delete ;; ;;
-    4) suspend_system ;;
+    3) delete_system ;;
+    4) get_instancia_add_suspend; suspend_system ;;
     *) exit ;;
   esac
 }
