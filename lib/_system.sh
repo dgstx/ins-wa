@@ -15,7 +15,7 @@ system_create_user() {
   sleep 2
 
   sudo su - root <<EOF
-  useradd -m -p $(openssl passwd -crypt $Sistemas_password) -s /bin/bash -G sudo Sistemas
+  useradd -m -p $(openssl passwd -crypt $mysql_password) -s /bin/bash -G sudo Sistemas
   usermod -aG sudo Sistemas
 EOF
 
@@ -97,7 +97,7 @@ system_mysql_install() {
   sudo apt update
   sudo apt install mysql-server -y
   sudo mysql
-  ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY '${mysql_root_password}';
+  ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY '${mysql_password}';
   FLUSH PRIVILEGES;
   exit
 EOF

@@ -10,7 +10,7 @@ get_instancia_add() {
 get_mysql_password() {
   
   print_banner
-  printf "${WHITE} 💻 Insira senha padrão para o sistema (senha mysql, deve ser a mesma em todos):${GRAY_LIGHT}"
+  printf "${WHITE} 🔐 Insira senha padrão para o sistema (senha mysql, deve ser a mesma em todos):${GRAY_LIGHT}"
   printf "\n\n"
   read -p "> " mysql_password
 }
@@ -18,7 +18,7 @@ get_mysql_password() {
 get_frontend_url() {
   
   print_banner
-  printf "${WHITE} 💻 Digite o domínio da interface FRONTEND:${GRAY_LIGHT}"
+  printf "${WHITE} 🌐 Digite o domínio do FRONT:${GRAY_LIGHT}"
   printf "\n\n"
   read -p "> " frontend_url
 }
@@ -26,7 +26,7 @@ get_frontend_url() {
 get_frontend_port() {
   
   print_banner
-  printf "${WHITE} 💻 Digite a porta do FRONTEND para esta instancia; Ex: 3333 ${GRAY_LIGHT}"
+  printf "${WHITE} 🚪 Digite a porta para o FRONTEND desta instancia (3200 a 3299):  ${GRAY_LIGHT}"
   printf "\n\n"
   read -p "> " frontend_port
 }
@@ -34,7 +34,7 @@ get_frontend_port() {
 get_backend_url() {
   
   print_banner
-  printf "${WHITE} 💻 Digite o domínio do BACKEND:${GRAY_LIGHT}"
+  printf "${WHITE} 🌐 Digite o domínio do BACK:${GRAY_LIGHT}"
   printf "\n\n"
   read -p "> " backend_url
 }
@@ -42,7 +42,7 @@ get_backend_url() {
 get_backend_port() {
   
   print_banner
-  printf "${WHITE} 💻 Digite a porta do BACKEND para esta instancia; Ex: 8080 ${GRAY_LIGHT}"
+  printf "${WHITE} 🚪 Digite a porta para o BACKEND desta instancia (4200 a 4299) ${GRAY_LIGHT}"
   printf "\n\n"
   read -p "> " backend_port
 }
@@ -71,7 +71,7 @@ get_instancia_add_suspend() {
 get_max_whats() {
   
   print_banner
-  printf "${WHITE} 💻 Digite a quantidade de WhatsApps que ${instancia_add} poderá cadastrar:${GRAY_LIGHT}"
+  printf "${WHITE} 🔢 Digite a quantidade de WhatsApps que ${instancia_add} poderá cadastrar:${GRAY_LIGHT}"
   printf "\n\n"
   read -p "> " max_whats
 }
@@ -79,7 +79,7 @@ get_max_whats() {
 get_max_user() {
   
   print_banner
-  printf "${WHITE} 💻 Informe a quantidade de atendentes que ${instancia_add} poderá cadastrar:${GRAY_LIGHT}"
+  printf "${WHITE} 🔢 Informe a quantidade de atendentes que ${instancia_add} poderá cadastrar:${GRAY_LIGHT}"
   printf "\n\n"
   read -p "> " max_user
 }

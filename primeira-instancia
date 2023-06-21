@@ -22,7 +22,7 @@ if [[ ! -e "${PROJECT_ROOT}"/config ]]; then
   cat << EOF > "${PROJECT_ROOT}"/config
 Sistemas_password=${mysql_password}
 mysql_root_password=${mysql_password}
-db_pass=${db_pass}
+db_pass=${mysql_password}
 EOF
 fi
 
