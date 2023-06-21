@@ -1,11 +1,12 @@
-FAZENDO DOWNLOAD DO INSTALADOR & INICIANDO A PRIMEIRA INSTALAÇÃO:
+![](https://media0.giphy.com/media/Ois2yfewu6awL86Asc/giphy.gif?cid=ecf05e476xkuoqkklcut14fe0filqg2cuzcicvmkdu6j8o43&ep=v1_gifs_search&rid=giphy.gif&ct=g)
 
+PRIMEIRA INSTALAÇÃO:
 ```bash
-sudo apt -y update && sudo apt -y upgrade && sudo apt install -y git && git clone https://github.com/jerbison/whaticket_install.git && sudo chmod -R 777 ./whaticket_install && cd ./whaticket_install && sudo ./primeira-instancia
+sudo apt -y update && sudo apt -y upgrade && sudo apt install -y git && git clone https://github.com/dgstx/projeto3.git && sudo chmod -R 777 ./installer && cd ./installer && sudo ./primeira-instancia
 ```
 
-ACESSANDO DIRETORIO DO INSTALADOR & INICIANDO INSTALAÇÕES ADICIONAIS:
+INSTALAÇÕES ADICIONAIS:
 ```bash
-cd && cd ./whaticket_install && sudo ./demais-instancias
+cd && cd ./installer && sudo ./demais-instancias
 ```
 
