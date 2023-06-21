@@ -188,7 +188,7 @@ system_pm2_install() {
   npm install -g pm2
   pm2 startup ubuntu -u Sistemas
   env PATH=\$PATH:/usr/bin pm2 startup ubuntu -u Sistemas --hp /home/Sistemas/${instancia_add}
-  pm2 save
+  pm2 save -f
 EOF
 
   sleep 2
@@ -340,7 +340,7 @@ system_delete() {
   sudo mysql -e "DROP USER '${instancia_add}'@'localhost';"
   sudo su - Sistemas <<EOF
   sudo pm2 delete ${instancia_add}
-  pm2 save
+  pm2 save -f
 EOF
 
   sleep 2
@@ -359,7 +359,7 @@ system_suspend() {
   # Lógica para suspender a instância específica no pm2
   sudo su - Sistemas <<EOF
   pm2 stop ${instancia_add}
-  pm2 save
+  pm2 save -f
 EOF
 
   sleep 2
@@ -378,7 +378,7 @@ system_resume() {
   # Lógica para retomar a execução do sistema no PM2
   sudo su - Sistemas <<EOF
   pm2 start ${instancia_add}
-  pm2 save
+  pm2 save -f
 EOF
 
   sleep 2

@@ -128,7 +128,7 @@ frontend_start_pm2() {
   sudo su - Sistemas <<EOF
   cd /home/Sistemas/${instancia_add}/frontend
   pm2 start server.js --name ${instancia_add}-frontend
-  pm2 save
+  pm2 save -f
 EOF
 
   sleep 2
