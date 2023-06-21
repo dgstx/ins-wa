@@ -356,9 +356,28 @@ system_suspend() {
   printf "${WHITE} ⛔ Suspendendo Instancia...${GRAY_LIGHT}"
   printf "\n\n"
 
-  # Coloque aqui a lógica para suspender a instância específica do pm2
+  # Lógica para suspender a instância específica no pm2
   sudo su - Sistemas <<EOF
   pm2 stop ${instancia_add}
+  pm2 save
+EOF
+
+  sleep 2
+}
+
+#######################################
+# Resume system
+# Arguments:
+#   None
+#######################################
+system_resume() {
+  print_banner
+  printf "${WHITE} 💻 Retomando o sistema...${GRAY_LIGHT}"
+  printf "\n\n"
+
+  # Lógica para retomar a execução do sistema no PM2
+  sudo su - Sistemas <<EOF
+  pm2 start ${instancia_add}
   pm2 save
 EOF
 

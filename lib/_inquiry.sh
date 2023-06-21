@@ -54,6 +54,14 @@ get_instancia_add_suspend() {
   read -p "> " instancia_add
 }
 
+get_instancia_add_suspend() {
+  print_banner
+  printf "${WHITE} 💻 Digite o nome da instância que deseja retomar da suspensão:${GRAY_LIGHT}"
+  printf "\n\n"
+  read -p "> " instancia_add
+}
+
+
 get_urls() {
   get_instancia_add
   get_frontend_url
@@ -78,15 +86,21 @@ suspend_system() {
   system_suspend
 }
 
+resume_system() {
+  get_instancia_add_resume
+  system_resume
+}
+
 inquiry_options() {
 
   print_banner
   printf "${WHITE} 💻 Escolha uma das opções!${GRAY_LIGHT}"
   printf "\n\n"
-  printf "   [1] Instalar o Sistema\n"
-  printf "   [2] Atualizar o Sistema\n"
-  printf "   [3] Excluir o Sistema\n"
-  printf "   [4] Suspender o Sistema\n"
+  printf "   [1] Instalar Instância\n"
+  printf "   [2] Atualizar Instância\n"
+  printf "   [3] Excluir Instância\n"
+  printf "   [4] Suspender Instância\n"
+  printf "   [5] Retomar Instância\n"
   printf "\n"
   read -p "> " option
 
@@ -94,7 +108,8 @@ inquiry_options() {
     1) get_urls ;;
     2) software_update ;;
     3) delete_system ;;
-    4) get_instancia_add_suspend; suspend_system ;;
+    4) suspend_system ;;
+    5) resume_system ;;
     *) exit ;;
   esac
 }
