@@ -117,26 +117,27 @@ resume_system() {
 }
 
 inquiry_options() {
+  while true; do
+    print_banner
+    printf "${WHITE} 💻 Escolha uma das opções!${GRAY_LIGHT}"
+    printf "\n\n"
+    printf "   [1] Instalar Instância\n"
+    printf "   [2] Atualizar Instância\n"
+    printf "   [3] Excluir Instância\n"
+    printf "   [4] Suspender Instância\n"
+    printf "   [5] Retomar Instância\n"
+    printf "\n"
+    read -p "> " option
 
-  print_banner
-  printf "${WHITE} 💻 Escolha uma das opções!${GRAY_LIGHT}"
-  printf "\n\n"
-  printf "   [1] Instalar Instância\n"
-  printf "   [2] Atualizar Instância\n"
-  printf "   [3] Excluir Instância\n"
-  printf "   [4] Suspender Instância\n"
-  printf "   [5] Retomar Instância\n"
-  printf "\n"
-  read -p "> " option
-
-  case "${option}" in
-    1) get_urls ;;
-    2) software_update ;;
-    3) delete_system ;;
-    4) suspend_system ;;
-    5) resume_system ;;
-    *) exit ;;
-  esac
+    case "${option}" in
+      1) get_urls ;;
+      2) software_update ;;
+      3) delete_system ;;
+      4) suspend_system ;;
+      5) resume_system ;;
+      *) break ;;
+    esac
+  done
 }
 
 
