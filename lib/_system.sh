@@ -344,3 +344,22 @@ EOF
 
   sleep 2
 }
+
+#######################################
+# Suspend system
+# Arguments:
+#   None
+#######################################
+system_suspend() {
+  print_banner
+  printf "${WHITE} ⛔ Suspender Instancia...${GRAY_LIGHT}"
+  printf "\n\n"
+
+  # Coloque aqui a lógica para suspender a instância específica do pm2
+  sudo su - Sistemas <<EOF
+  pm2 stop ${instancia_add}
+  pm2 save
+EOF
+
+  sleep 2
+}
