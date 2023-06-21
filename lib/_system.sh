@@ -9,7 +9,7 @@
 #######################################
 system_create_user() {
   print_banner
-  printf "${WHITE} 💻 Agora, vamos criar o usuário para a instancia...${GRAY_LIGHT}"
+  printf "${WHITE} 💻 Agora, vamos criar o usuário 'Sistemas' utilizado para as instancias...${GRAY_LIGHT}"
   printf "\n\n"
 
   sleep 2
@@ -29,7 +29,7 @@ EOF
 #######################################
 system_git_clone() {
   print_banner
-  printf "${WHITE} 💻 Fazendo download do Repositório...${GRAY_LIGHT}"
+  printf "${WHITE} 💻 Fazendo download do Wasap...${GRAY_LIGHT}"
   printf "\n\n"
 
 
@@ -49,7 +49,7 @@ EOF
 #######################################
 system_update() {
   print_banner
-  printf "${WHITE} 💻 Vamos atualizar o sistema ...${GRAY_LIGHT}"
+  printf "${WHITE} 💻 Vamos atualizar o sistema Wasap...${GRAY_LIGHT}"
   printf "\n\n"
 
   sleep 2
@@ -330,10 +330,10 @@ EOF
 #######################################
 system_delete() {
   print_banner
-  printf "${WHITE} 💻 Excluindo o sistema Wasap...${GRAY_LIGHT}"
+  printf "${WHITE} 🚮 Excluindo o sistema Wasap...${GRAY_LIGHT}"
   printf "\n\n"
 
-  # Coloque aqui a lógica adicional para excluir a instância, o banco de dados e o usuário específicos
+  # Lógica para excluir a instância, usuario do db, db e processo do pm2
   sudo rm -rf /home/Sistemas/${instancia_add}
   sudo mysql -e "DROP DATABASE ${instancia_add};"
   sudo mysql -e "DROP USER '${instancia_add}'@'localhost';"
