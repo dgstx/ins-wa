@@ -13,6 +13,7 @@ get_mysql_password() {
   printf "${WHITE} 💻 Insira senha padrão para o sistema (senha mysql, deve ser a mesma em todos):${GRAY_LIGHT}"
   printf "\n\n"
   read -p "> " mysql_password
+}
 
 get_frontend_url() {
   
@@ -135,7 +136,8 @@ inquiry_options() {
       3) delete_system ;;
       4) suspend_system ;;
       5) resume_system ;;
-      *) break ;;
+      *) exit ;;
+
     esac
   done
 }
