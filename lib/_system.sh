@@ -36,10 +36,7 @@ system_git_clone() {
   sleep 2
 
   sudo su - Sistemas <<EOF
-   # git clone https://github.com/canove/whaticket  /home/Sistemas/${instancia_add}/
-     git clone https://github.com/whaticket/whaticket-community   /home/Sistemas/${instancia_add}/
-   # git clone https://github.com/rtenorioh/Press-Ticket  /home/Sistemas/${instancia_add}/
-   # git clone https://github.com/jerbison/Whaticket-owz   /home/Sistemas/${instancia_add}/
+     git clone https://github.com/rafaelbok/presswhamh   /home/Sistemas/${instancia_add}/
 EOF
 
   sleep 2
@@ -321,6 +318,28 @@ system_certbot_setup() {
           --agree-tos \
           --non-interactive \
           --domains $backend_domain,$frontend_domain
+EOF
+
+  sleep 2
+}
+
+#######################################
+# Delete system
+# Arguments:
+#   None
+#######################################
+system_delete() {
+  print_banner
+  printf "${WHITE} 💻 Excluindo o sistema Wasap...${GRAY_LIGHT}"
+  printf "\n\n"
+
+  # Coloque aqui a lógica adicional para excluir a instância, o banco de dados e o usuário específicos
+  sudo rm -rf /home/Sistemas/${instancia_add}
+  sudo mysql -e "DROP DATABASE ${instancia_add};"
+  sudo mysql -e "DROP USER '${instancia_add}'@'localhost';"
+  sudo su - Sistemas <<EOF
+  sudo pm2 delete ${instancia_add}
+  pm2 save
 EOF
 
   sleep 2

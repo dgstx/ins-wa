@@ -53,6 +53,9 @@ software_update() {
   frontend_update
   backend_update
 }
+delete_system() {
+  system_delete
+}
 
 inquiry_options() {
 
