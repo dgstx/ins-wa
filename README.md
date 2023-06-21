@@ -2,7 +2,7 @@
 
 PRIMEIRA INSTALAÇÃO:
 ```bash
-sudo apt -y update && sudo apt -y upgrade && sudo apt install -y git && git clone https://github.com/dgstx/projeto3.git && sudo chmod -R 777 ./installer && cd ./installer && sudo ./primeira-instancia
+sudo apt -y update && sudo apt -y upgrade && sudo apt install -y git && git clone https://github.com/dgstx/projeto3.git installer && sudo chmod -R 777 ./installer && cd ./installer && sudo ./primeira-instancia
 ```
 
 INSTALAÇÕES ADICIONAIS:
