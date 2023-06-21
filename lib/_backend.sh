@@ -15,8 +15,8 @@ backend_mysql_create() {
   sleep 2
 
   sudo su - root <<EOF
-    mysql -u root -p${mysql_root_password}
-    CREATE USER '${instancia_add}'@'%' IDENTIFIED BY '${mysql_root_password}';
+    mysql -u root -p${mysql_password}
+    CREATE USER '${instancia_add}'@'%' IDENTIFIED BY '${mysql_password}';
     CREATE DATABASE ${instancia_add} character set UTF8mb4 collate utf8mb4_bin;
     GRANT ALL PRIVILEGES ON ${instancia_add}.* TO ${instancia_add}@'%';
     FLUSH PRIVILEGES;
@@ -61,7 +61,7 @@ PORT=${backend_port}
 DB_HOST=localhost
 DB_DIALECT=mysql
 DB_USER=${instancia_add}
-DB_PASS=${mysql_root_password}
+DB_PASS=${mysql_password}
 DB_NAME=${instancia_add}
 
 JWT_SECRET=${jwt_secret}

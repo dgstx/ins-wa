@@ -7,6 +7,12 @@ get_instancia_add() {
   printf "\n\n"
   read -p "> " instancia_add
 }
+get_mysql_password() {
+  
+  print_banner
+  printf "${WHITE} 💻 Insira senha padrão para o sistema (senha mysql, deve ser a mesma em todos):${GRAY_LIGHT}"
+  printf "\n\n"
+  read -p "> " mysql_password
 
 get_frontend_url() {
   
@@ -80,6 +86,7 @@ get_max_user() {
 
 get_urls() {
   get_instancia_add
+  get_mysql_password
   get_frontend_url
   get_backend_url
   get_frontend_port
