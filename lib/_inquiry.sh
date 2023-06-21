@@ -139,7 +139,6 @@ inquiry_options() {
       *) exit ;;
 
     esac
-  done
 }
 
 
