@@ -40,6 +40,13 @@ get_backend_port() {
   read -p "> " backend_port
 }
 
+get_instancia_add_delete() {
+  print_banner
+  printf "${WHITE} 💻 Digite o nome da instância que deseja excluir:${GRAY_LIGHT}"
+  printf "\n\n"
+  read -p "> " instancia_add
+}
+
 get_urls() {
   get_instancia_add
   get_frontend_url
@@ -53,6 +60,7 @@ software_update() {
   frontend_update
   backend_update
 }
+
 delete_system() {
   system_delete
 }
@@ -72,7 +80,7 @@ inquiry_options() {
   case "${option}" in
     1) get_urls ;;
     2) software_update ;;
-    3) delete_system ;;
+    3) get_instancia_add_delete; system_delete ;; ;;
     4) suspend_system ;;
     *) exit ;;
   esac
