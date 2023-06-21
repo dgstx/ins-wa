@@ -55,23 +55,22 @@ software_update() {
 }
 
 inquiry_options() {
-  
+
   print_banner
   printf "${WHITE} 💻 Escolha uma das opções!${GRAY_LIGHT}"
   printf "\n\n"
   printf "   [1] Instalar o Sistema\n"
   printf "   [2] Atualizar o Sistema\n"
+  printf "   [3] Excluir o Sistema\n"
+  printf "   [4] Suspender o Sistema\n"
   printf "\n"
   read -p "> " option
 
   case "${option}" in
     1) get_urls ;;
-
-    2) 
-      software_update 
-      exit
-      ;;
-
+    2) software_update ;;
+    3) delete_system ;;
+    4) suspend_system ;;
     *) exit ;;
   esac
 }
