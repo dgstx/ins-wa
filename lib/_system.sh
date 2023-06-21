@@ -86,7 +86,7 @@ EOF
 # Arguments:
 #   None
 #######################################
-system_docker_install() {
+system_mysql_install() {
   print_banner
   printf "${WHITE} 💻 Instalando MySQL...${GRAY_LIGHT}"
   printf "\n\n"
