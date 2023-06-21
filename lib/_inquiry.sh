@@ -61,6 +61,22 @@ get_instancia_add_suspend() {
   read -p "> " instancia_add
 }
 
+get_max_whats() {
+  
+  print_banner
+  printf "${WHITE} 💻 Digite a quantidade de WhatsApps que ${instancia_add} poderá cadastrar:${GRAY_LIGHT}"
+  printf "\n\n"
+  read -p "> " max_whats
+}
+
+get_max_user() {
+  
+  print_banner
+  printf "${WHITE} 💻 Informe a quantidade de atendentes que ${instancia_add} poderá cadastrar:${GRAY_LIGHT}"
+  printf "\n\n"
+  read -p "> " max_user
+}
+
 
 get_urls() {
   get_instancia_add
@@ -68,6 +84,8 @@ get_urls() {
   get_backend_url
   get_frontend_port
   get_backend_port
+  get_max_whats
+  get_max_user
 }
 
 software_update() {

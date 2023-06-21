@@ -63,8 +63,8 @@ DB_PASS=${mysql_root_password}
 DB_NAME=${instancia_add}
 JWT_SECRET=${jwt_secret}
 JWT_REFRESH_SECRET=${jwt_refresh_secret}
-USER_LIMIT=10
-CONNECTIONS_LIMIT=1
+USER_LIMIT=${max_user}
+CONNECTIONS_LIMIT=${max_whats}
 [-]EOF
 EOF
 
