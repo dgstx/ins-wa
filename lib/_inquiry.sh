@@ -118,7 +118,7 @@ resume_system() {
 }
 
 inquiry_options() {
-  while true; do
+
     print_banner
     printf "${WHITE} 💻 Escolha uma das opções!${GRAY_LIGHT}"
     printf "\n\n"
