@@ -88,7 +88,7 @@ EOF
 #######################################
 system_docker_install() {
   print_banner
-  printf "${WHITE} 💻 Instalando Mysql...${GRAY_LIGHT}"
+  printf "${WHITE} 💻 Instalando MySQL...${GRAY_LIGHT}"
   printf "\n\n"
 
   sleep 2
@@ -118,7 +118,7 @@ EOF
 #######################################
 system_puppeteer_dependencies() {
   print_banner
-  printf "${WHITE} 💻 Instalando puppeteer dependencies...${GRAY_LIGHT}"
+  printf "${WHITE} 💻 Instalando Dependencias do Puppeteer...${GRAY_LIGHT}"
   printf "\n\n"
 
   sleep 2
@@ -263,7 +263,7 @@ EOF
 #######################################
 system_nginx_restart() {
   print_banner
-  printf "${WHITE} 💻 reiniciando nginx...${GRAY_LIGHT}"
+  printf "${WHITE} 💻 Reiniciando nginx...${GRAY_LIGHT}"
   printf "\n\n"
 
   sleep 2
@@ -372,7 +372,7 @@ EOF
 #######################################
 system_resume() {
   print_banner
-  printf "${WHITE} 💻 Retomando o sistema...${GRAY_LIGHT}"
+  printf "${WHITE} ▶️ Retomando o sistema...${GRAY_LIGHT}"
   printf "\n\n"
 
   # Lógica para retomar a execução do sistema no PM2
