@@ -1,6 +1,8 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\lib"
   ],
+  "SelectedNode": "\\lib\\_frontend.sh",
   "PreviewInSolutionExplorer": false
 }
