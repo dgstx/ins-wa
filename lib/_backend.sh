@@ -130,6 +130,7 @@ backend_update() {
   sudo su - deploy <<EOF
   cd /home/deploy/${instancia_up}
   pm2 stop ${instancia_up}-backend
+  git remote set-url origin ${repo_wasap}
   git pull
   cd /home/deploy/${instancia_up}/backend
   npm install

@@ -29,18 +29,18 @@ EOF
 #######################################
 system_git_clone() {
   print_banner
-  printf "${WHITE} 💻 Fazendo download do Wasap...${GRAY_LIGHT}"
+  printf "${WHITE} 💻 Fazendo download do Wasap de ${repo_wasap}...${GRAY_LIGHT}"
   printf "\n\n"
-
 
   sleep 2
 
   sudo su - deploy <<EOF
-     git clone https://github.com/rtenorioh/Press-Ticket   /home/deploy/${instancia_add}/
+    git clone ${repo_wasap} /home/deploy/${instancia_add}/
 EOF
 
   sleep 2
 }
+
 
 #######################################
 # updates system

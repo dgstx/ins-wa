@@ -92,9 +92,21 @@ get_instancia_up() {
   read -p "> " instancia_up
 }
 
+get_repo_wasap() {
+  print_banner
+  printf "${WHITE} Repo do sistema Wasap (deixe em branco para usar o padrão: https://github.com/rafaelbok/press.git): ${GRAY_LIGHT}"
+  printf "\n\n"
+  read -p "> " repo_wasap
+
+  # Verifica se o user deixo em branco
+  if [[ -z "$repo_wasap" ]]; then
+    repo_wasap="https://github.com/rafaelbok/press.git"
+  fi
+}
 
 get_urls() {
   get_instancia_add
+  get_repo_wasap
   get_mysql_password
   get_frontend_url
   get_backend_url
@@ -106,6 +118,7 @@ get_urls() {
 
 software_update() {
   get_instancia_up
+  get_repo_wasap
   frontend_update
   backend_update
 }
