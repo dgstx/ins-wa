@@ -104,6 +104,13 @@ get_repo_wasap() {
   fi
 }
 
+get_sub_phpmy() {
+  print_banner
+  printf "${WHITE} Digite o inicio do subdominio para o phpmyadmin (Se for exemplo.wasap.com.br digite apenas examplo): ${GRAY_LIGHT}"
+  printf "\n\n"
+  read -p "> " sub_phpmy
+}
+
 get_urls() {
   get_instancia_add
   get_repo_wasap
@@ -137,6 +144,10 @@ resume_system() {
   get_instancia_resume
   system_resume
 }
+install_phpmyadmin() {
+  get_sub_phpmy
+  phpmyadmin_install
+}
 
 inquiry_options() {
 
@@ -148,6 +159,7 @@ inquiry_options() {
     printf "   [3] Excluir Instância\n"
     printf "   [4] Suspender Instância\n"
     printf "   [5] Retomar Instância\n"
+    printf "   [6] Instalar phpmyadmin\n"
     printf "\n"
     read -p "> " option
 
@@ -167,6 +179,9 @@ inquiry_options() {
       5) 
       resume_system
       ;; 
+      6)
+      install_phpmyadmin
+      ;;
       
       *) exit ;;
 
