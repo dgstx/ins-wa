@@ -172,6 +172,7 @@ resume_system() {
 install_phpmyadmin() {
   get_sub_phpmy
   phpmyadmin_install
+  inquiry_options
 }
 restart_system() {
   get_restart
