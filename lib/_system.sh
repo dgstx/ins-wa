@@ -97,7 +97,7 @@ system_mysql_install() {
   sudo apt update
   sudo apt install mysql-server -y
   sudo mysql
-  ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY '${mysql_password}';
+  ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY '${mysql_root_password}';
   FLUSH PRIVILEGES;
   exit
 EOF

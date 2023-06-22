@@ -12,7 +12,7 @@ get_mysql_password() {
   print_banner
   printf "${WHITE} 🔐 Insira senha padrão para o sistema (senha mysql, deve ser a mesma em todos):${GRAY_LIGHT}"
   printf "\n\n"
-  read -p "> " mysql_password
+  read -p "> " mysql_root_password
 }
 
 get_frontend_url() {
