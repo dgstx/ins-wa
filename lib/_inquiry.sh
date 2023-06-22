@@ -195,7 +195,8 @@ inquiry_options() {
     printf "   [4] Suspender Instância\n"
     printf "   [5] Retomar Instância\n"
     printf "   [6] Instalar phpmyadmin\n"
-    printf "   [7] Reiniciar Instancia"
+    printf "   [7] Reiniciar Instancia\n"
+    printf "\n"
     printf "   [0] Sair\n"
     printf "\n"
     read -p "> " option
