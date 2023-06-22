@@ -331,10 +331,20 @@ EOF
 #######################################
 system_delete() {
   print_banner
+
+  printf "Tem certeza de que deseja excluir a instância ${instancia_delete}? Digite o nome da instância para confirmar: "
+  read confirmation
+
+  if [ "$confirmation" != "$instancia_delete" ]; then
+    printf "${RED} ❌ Confirmação inválida. Cancelando a exclusão da instância...${GRAY_LIGHT}"
+    printf "\n\n"
+    return
+  fi
+
   printf "${WHITE} 🚮 Excluindo o sistema Wasap de ${instancia_delete}...${GRAY_LIGHT}"
   printf "\n\n"
 
-  # Lógica para excluir a Instancia, usuario do db, db e processo do pm2
+  # Lógica para excluir a Instancia, usuário do db, db e processo do pm2
   sudo rm -rf /home/deploy/${instancia_delete}
   sudo mysql -e "DROP DATABASE IF EXISTS ${instancia_delete};"
   sudo mysql -e "DROP USER IF EXISTS '${instancia_delete}'@'localhost';"
@@ -351,7 +361,7 @@ EOF
   sleep 2
 
   print_banner
-  printf "${WHITE} 🚮 Remoção da instancia ${instancia_delete} realizado com sucesso ...${GRAY_LIGHT}"
+  printf "${WHITE} ✅ Remoção da instância ${instancia_delete} realizada com sucesso ...${GRAY_LIGHT}"
   printf "\n\n"
 
   sleep 2
@@ -376,7 +386,7 @@ EOF
   sleep 2
 
   print_banner
-  printf "${WHITE} ⛔ Bloqueio da Instancia ${instancia_suspend} realizado com sucesso ...${GRAY_LIGHT}"
+  printf "${WHITE} ✅ Bloqueio da Instancia ${instancia_suspend} realizado com sucesso ...${GRAY_LIGHT}"
   printf "\n\n"
 
   sleep 2
@@ -401,7 +411,7 @@ EOF
   sleep 2
 
   print_banner
-  printf "${WHITE} ▶️ Desbloqueio da Instancia ${instancia_resume} realizado com sucesso ...${GRAY_LIGHT}"
+  printf "${WHITE} ✅ Desbloqueio da Instancia ${instancia_resume} realizado com sucesso ...${GRAY_LIGHT}"
   printf "\n\n"
 
   sleep 2
@@ -424,7 +434,7 @@ system_restart() {
 EOF
 sleep 2
   print_banner
-  printf "${WHITE} ♻️ Reinicio da Instancia ${sub_restart} realizado com sucesso ...${GRAY_LIGHT}"
+  printf "${WHITE} ✅ Reinicio da Instancia ${sub_restart} realizado com sucesso ...${GRAY_LIGHT}"
   printf "\n\n"
   sleep 2
 }
