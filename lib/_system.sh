@@ -454,6 +454,10 @@ phpmyadmin_install() {
   # Lógica para instalação do phpMyAdmin no servidor
   sudo apt install -y phpmyadmin php-mbstring php-gettext
 
+  #limpa nginx
+  sudo rm -f /etc/nginx/sites-available/${sub_phpmy}
+  sudo rm -f /etc/nginx/sites-enabled/${sub_phpmy}
+
   # Criar link simbólico para o diretório do phpMyAdmin no diretório do Nginx
   sudo ln -s /usr/share/phpmyadmin /var/www/html/${sub_phpmy}
   # Configurar o arquivo de host do Nginx para o subdomínio do phpMyAdmin
