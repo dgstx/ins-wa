@@ -118,6 +118,7 @@ get_exit() {
   printf "\n\n"
   printf "${RED} Scritp por dgstx & rafaelbok ${GRAY_LIGHT}"
   printf "\n\n"
+  cd
 sleep 2
   exit
 }
