@@ -116,7 +116,7 @@ get_exit() {
   printf "\n\n"
   printf "${WHITE} 🙋🏼 tchaaaaaaaau...${GRAY_LIGHT}"
   printf "\n\n"
-  printf "${RED} Scritp por dgstx & rafaelbok ${GRAY_LIGHT}"
+  printf "${RED} scritp por dgstx & rafaelbok ${GRAY_LIGHT}"
   printf "\n\n"
   cd
 sleep 2
