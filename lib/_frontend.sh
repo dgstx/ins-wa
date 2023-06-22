@@ -14,8 +14,8 @@ frontend_node_dependencies() {
 
   sleep 2
 
-  sudo su - Sistemas <<EOF
-  cd /home/Sistemas/${instancia_add}/frontend
+  sudo su - deploy <<EOF
+  cd /home/deploy/${instancia_add}/frontend
   npm install
 EOF
 
@@ -34,8 +34,8 @@ frontend_node_build() {
 
   sleep 2
 
-  sudo su - Sistemas <<EOF
-  cd /home/Sistemas/${instancia_add}/frontend
+  sudo su - deploy <<EOF
+  cd /home/deploy/${instancia_add}/frontend
   npm run build
 EOF
 
@@ -54,11 +54,11 @@ frontend_update() {
 
   sleep 2
   #verificar variavel update --ok
-  sudo su - Sistemas <<EOF
-  cd /home/Sistemas/${instancia_up}
+  sudo su - deploy <<EOF
+  cd /home/deploy/${instancia_up}
   pm2 stop ${instancia_up}-frontend
   git pull
-  cd /home/Sistemas/${instancia_up}/frontend
+  cd /home/deploy/${instancia_up}/frontend
   npm install
   rm -rf build
   npm run build
@@ -86,8 +86,8 @@ frontend_set_env() {
   backend_url=${backend_url%%/*}
   backend_url=https://$backend_url
 
-sudo su - Sistemas << EOF
-  cat <<[-]EOF > /home/Sistemas/${instancia_add}/frontend/.env
+sudo su - deploy << EOF
+  cat <<[-]EOF > /home/deploy/${instancia_add}/frontend/.env
 REACT_APP_BACKEND_URL=${backend_url}
 REACT_APP_HOURS_CLOSE_TICKETS_AUTO = 24
 [-]EOF
@@ -95,15 +95,15 @@ EOF
 
   sleep 2
 
-sudo su - Sistemas << EOF
-  cat <<[-]EOF > /home/Sistemas/${instancia_add}/frontend/server.js
+sudo su - deploy << EOF
+  cat <<[-]EOF > /home/deploy/${instancia_add}/frontend/server.js
 //simple express server to run frontend production build;
 const express = require("express");
 const path = require("path");
 const app = express();
 app.use(express.static(path.join(__dirname, "build")));
 app.get("/*", function (req, res) {
-	res.sendFile(path.join(__dirname, "build", "index.html"));
+    res.sendFile(path.join(__dirname, "build", "index.html"));
 });
 app.listen(${frontend_port});
 
@@ -125,8 +125,8 @@ frontend_start_pm2() {
 
   sleep 2
 
-  sudo su - Sistemas <<EOF
-  cd /home/Sistemas/${instancia_add}/frontend
+  sudo su - deploy <<EOF
+  cd /home/deploy/${instancia_add}/frontend
   pm2 start server.js --name ${instancia_add}-frontend
   pm2 save -f
 EOF

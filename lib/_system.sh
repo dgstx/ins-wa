@@ -9,14 +9,14 @@
 #######################################
 system_create_user() {
   print_banner
-  printf "${WHITE} 💻 Agora, vamos criar o usuário 'Sistemas' utilizado para as instancias...${GRAY_LIGHT}"
+  printf "${WHITE} 💻 Agora, vamos criar o usuário 'deploy' utilizado para as instancias...${GRAY_LIGHT}"
   printf "\n\n"
 
   sleep 2
 
   sudo su - root <<EOF
-  useradd -m -p $(openssl passwd -crypt $mysql_password) -s /bin/bash -G sudo Sistemas
-  usermod -aG sudo Sistemas
+  useradd -m -p $(openssl passwd -crypt $mysql_password) -s /bin/bash -G sudo deploy
+  usermod -aG sudo deploy
 EOF
 
   sleep 2
@@ -35,8 +35,8 @@ system_git_clone() {
 
   sleep 2
 
-  sudo su - Sistemas <<EOF
-     git clone https://github.com/rafaelbok/presswhamh   /home/Sistemas/${instancia_add}/
+  sudo su - deploy <<EOF
+     git clone https://github.com/rafaelbok/presswhamh   /home/deploy/${instancia_add}/
 EOF
 
   sleep 2
@@ -186,8 +186,8 @@ system_pm2_install() {
 
   sudo su - root <<EOF
   npm install -g pm2
-  pm2 startup ubuntu -u Sistemas
-  env PATH=\$PATH:/usr/bin pm2 startup ubuntu -u Sistemas --hp /home/Sistemas/${instancia_add}
+  pm2 startup ubuntu -u deploy
+  env PATH=\$PATH:/usr/bin pm2 startup ubuntu -u deploy --hp /home/deploy/${instancia_add}
   pm2 save -f
 EOF
 
@@ -314,7 +314,7 @@ system_certbot_setup() {
   frontend_domain=$(echo "${frontend_url/https:\/\/}")
 
   sudo su - root <<EOF
-  certbot -m $Sistemas_email \
+  certbot -m $deploy_email \
           --nginx \
           --agree-tos \
           --non-interactive \
@@ -335,7 +335,7 @@ system_delete() {
   printf "\n\n"
 
   # Lógica para excluir a instância, usuario do db, db e processo do pm2
-  sudo rm -rf /home/Sistemas/${instancia_delete}
+  sudo rm -rf /home/deploy/${instancia_delete}
   sudo mysql -e "DROP DATABASE ${instancia_delete};"
   sudo mysql -e "DROP USER '${instancia_delete}'@'localhost';"
   cd && rm -rf /etc/nginx/sites-enabled/${instancia_delete}-frontend
@@ -343,7 +343,7 @@ system_delete() {
   cd && rm -rf /etc/nginx/sites-available/${instancia_delete}-frontend
   cd && rm -rf /etc/nginx/sites-available/${instancia_delete}-backend
   cd
-  sudo su - Sistemas <<EOF
+  sudo su - deploy <<EOF
   sudo pm2 delete ${instancia_delete}-frontend ${instancia_delete}-backend
   pm2 save -f
 
@@ -368,7 +368,7 @@ system_suspend() {
   printf "\n\n"
 
   # Lógica para suspender a instância específica no pm2
-  sudo su - Sistemas <<EOF
+  sudo su - deploy <<EOF
   pm2 stop ${instancia_suspend}-backend
   pm2 save -f
 EOF
@@ -387,7 +387,7 @@ system_resume() {
   printf "\n\n"
 
   # Lógica para retomar a execução do sistema no PM2
-  sudo su - Sistemas <<EOF
+  sudo su - deploy <<EOF
   pm2 start ${instancia_resume}-backend
   pm2 save -f
 EOF
