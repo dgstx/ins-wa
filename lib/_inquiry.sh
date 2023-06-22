@@ -199,7 +199,6 @@ inquiry_options() {
       ;;
         
     esac
-  done
 }
 
 inquiry_options
