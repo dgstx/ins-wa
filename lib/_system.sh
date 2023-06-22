@@ -351,7 +351,7 @@ EOF
   sleep 2
 
   print_banner
-  printf "${WHITE} 💻 Remoção da instancia ${instancia_delete} realizado com sucesso ...${GRAY_LIGHT}"
+  printf "${WHITE} 🚮 Remoção da instancia ${instancia_delete} realizado com sucesso ...${GRAY_LIGHT}"
   printf "\n\n"
 
   sleep 2
