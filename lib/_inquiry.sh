@@ -205,4 +205,5 @@ inquiry_options() {
   done
 }
 
+inquiry_options
 
