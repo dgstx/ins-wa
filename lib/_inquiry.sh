@@ -148,6 +148,12 @@ install_phpmyadmin() {
   get_sub_phpmy
   phpmyadmin_install
 }
+exit() {
+  print_banner
+  printf "${WHITE} 🙋🏼‍ Saindo do script...${GRAY_LIGHT}"
+  printf "\n\n"
+  exit
+}
 
 inquiry_options() {
 
@@ -160,6 +166,7 @@ inquiry_options() {
     printf "   [4] Suspender Instância\n"
     printf "   [5] Retomar Instância\n"
     printf "   [6] Instalar phpmyadmin\n"
+    printf "   [0] Sair\n"
     printf "\n"
     read -p "> " option
 
@@ -183,7 +190,7 @@ inquiry_options() {
       install_phpmyadmin
       ;;
       0)
-      Sair  # Encerra o programa quando o usuário escolhe a opção "Sair"
+      exit
         ;;
       *)
         printf "${RED}Opção inválida.${GRAY}\n" ;;
