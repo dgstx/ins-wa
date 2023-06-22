@@ -113,8 +113,9 @@ get_sub_phpmy() {
 get_exit() {
   print_banner
   printf "${WHITE} 🙋🏼‍ Saindo do script...${GRAY_LIGHT}"
+  printf "${WHITE} 🙋🏼‍ tchaaaaaaaau...${GRAY_LIGHT}"
   printf "\n\n"
-sleep 4
+sleep 2
   exit
 }
 
