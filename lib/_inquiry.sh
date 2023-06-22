@@ -183,8 +183,7 @@ inquiry_options() {
       install_phpmyadmin
       ;;
       0)
-        printf "Instalador fechado.\n"
-        Sair  # Encerra o programa quando o usuário escolhe a opção "Sair"
+      Sair  # Encerra o programa quando o usuário escolhe a opção "Sair"
         ;;
       *)
         printf "${RED}Opção inválida.${GRAY}\n" ;;
