@@ -407,6 +407,33 @@ EOF
   sleep 2
 }
 
+#######################################
+# Restart system
+# Arguments:
+#   None
+#######################################
+system_restart() {
+  print_banner
+  printf "${WHITE} ♻️ Reiniciando o sistema...${GRAY_LIGHT}"
+  printf "\n\n"
+  # Lógica para reiniciar a instância específica no pm2
+  sudo su - deploy <<EOF
+  pm2 restart ${sub_restart}-backend
+  pm2 save -f
+EOF
+sleep 2
+  print_banner
+  printf "${WHITE} ♻️ Reinicio da Instancia ${sub_restart} realizado com sucesso ...${GRAY_LIGHT}"
+  printf "\n\n"
+  sleep 2
+}
+
+
+#######################################
+# install phpmyadmin
+# Arguments:
+#   None
+#######################################
 phpmyadmin_install() {
   print_banner
   printf "${WHITE} 🌐 Instalando PHPMYADMIN em ${sub_phpmy}.wasap.com.br...${GRAY_LIGHT}"

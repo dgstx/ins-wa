@@ -110,6 +110,14 @@ get_sub_phpmy() {
   printf "\n\n"
   read -p "> " sub_phpmy
 }
+
+get_restart() {
+  print_banner
+  printf "${WHITE} 🔄️ Digite o nome da instancia a ser reiniciada: ${GRAY_LIGHT}"
+  printf "\n\n"
+  read -p "> " sub_restart
+}
+
 get_exit() {
   print_banner
   printf "${WHITE} Saindo do script...${GRAY_LIGHT}"
@@ -166,6 +174,12 @@ install_phpmyadmin() {
   get_sub_phpmy
   phpmyadmin_install
 }
+restart_system() {
+  get_restart
+  system_restart
+  inquiry_options
+}
+
 e_exit() {
   get_exit
 }
@@ -181,6 +195,7 @@ inquiry_options() {
     printf "   [4] Suspender Instância\n"
     printf "   [5] Retomar Instância\n"
     printf "   [6] Instalar phpmyadmin\n"
+    printf "   [7] Reiniciar Instancia"
     printf "   [0] Sair\n"
     printf "\n"
     read -p "> " option
@@ -203,6 +218,9 @@ inquiry_options() {
       ;; 
       6)
       install_phpmyadmin
+      ;;
+      7)
+      restart_system
       ;;
       0)
       e_exit
