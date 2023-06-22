@@ -460,7 +460,7 @@ phpmyadmin_install() {
   sudo apt install -y gettext php7.4-gettext
 
   # Lógica para instalação do phpMyAdmin no servidor
-  sudo DEBIAN_FRONTEND=noninteractive apt-get install -y phpmyadmin php-mbstring
+  apt-get install -y phpmyadmin php-mbstring
 
   #limpa nginx
   sudo rm -f /etc/nginx/sites-available/${sub_phpmy}
