@@ -49,21 +49,21 @@ get_backend_port() {
 
 get_instancia_delete() {
   print_banner
-  printf "${WHITE} 💻 Digite o nome da instância que deseja excluir:${GRAY_LIGHT}"
+  printf "${WHITE} 💻 Digite o nome da Instancia que deseja excluir:${GRAY_LIGHT}"
   printf "\n\n"
   read -p "> " instancia_delete
 }
 
 get_instancia_suspend() {
   print_banner
-  printf "${WHITE} 💻 Digite o nome da instância que deseja suspender:${GRAY_LIGHT}"
+  printf "${WHITE} 💻 Digite o nome da Instancia que deseja suspender:${GRAY_LIGHT}"
   printf "\n\n"
   read -p "> " instancia_suspend
 }
 
 get_instancia_resume() {
   print_banner
-  printf "${WHITE} 💻 Digite o nome da instância que deseja retomar da suspensão:${GRAY_LIGHT}"
+  printf "${WHITE} 💻 Digite o nome da Instancia que deseja retomar da suspensão:${GRAY_LIGHT}"
   printf "\n\n"
   read -p "> " instancia_resume
 }
@@ -189,11 +189,11 @@ inquiry_options() {
     print_banner
     printf "${WHITE} 💻 Escolha uma das opções!${GRAY_LIGHT}"
     printf "\n\n"
-    printf "   [1] Instalar Instância\n"
-    printf "   [2] Atualizar Instância\n"   
-    printf "   [3] Excluir Instância\n"
-    printf "   [4] Suspender Instância\n"
-    printf "   [5] Retomar Instância\n"
+    printf "   [1] Instalar Instancia\n"
+    printf "   [2] Atualizar Instancia\n"   
+    printf "   [3] Excluir Instancia\n"
+    printf "   [4] Suspender Instancia\n"
+    printf "   [5] Retomar Instancia\n"
     printf "   [6] Instalar phpmyadmin\n"
     printf "   [7] Reiniciar Instancia\n"
     printf "\n"

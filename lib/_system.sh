@@ -334,7 +334,7 @@ system_delete() {
   printf "${WHITE} 🚮 Excluindo o sistema Wasap de ${instancia_delete}...${GRAY_LIGHT}"
   printf "\n\n"
 
-  # Lógica para excluir a instância, usuario do db, db e processo do pm2
+  # Lógica para excluir a Instancia, usuario do db, db e processo do pm2
   sudo rm -rf /home/deploy/${instancia_delete}
   sudo mysql -e "DROP DATABASE IF EXISTS ${instancia_delete};"
   sudo mysql -e "DROP USER IF EXISTS '${instancia_delete}'@'localhost';"
@@ -367,7 +367,7 @@ system_suspend() {
   printf "${WHITE} ⛔ Suspendendo Instancia...${GRAY_LIGHT}"
   printf "\n\n"
 
-  # Lógica para suspender a instância específica no pm2
+  # Lógica para suspender a Instancia específica no pm2
   sudo su - deploy <<EOF
   pm2 stop ${instancia_suspend}-backend
   pm2 save -f
@@ -416,7 +416,7 @@ system_restart() {
   print_banner
   printf "${WHITE} ♻️ Reiniciando o sistema...${GRAY_LIGHT}"
   printf "\n\n"
-  # Lógica para reiniciar a instância específica no pm2
+  # Lógica para reiniciar a Instancia específica no pm2
   sudo su - deploy <<EOF
   pm2 restart ${sub_restart}-backend
   pm2 restart ${sub_restart}-frontend
