@@ -112,9 +112,9 @@ get_sub_phpmy() {
 }
 get_exit() {
   print_banner
-  printf "${WHITE} 🙋🏼 Saindo do script...${GRAY_LIGHT}"
+  printf "${WHITE} Saindo do script...${GRAY_LIGHT}"
   printf "\n\n"
-  printf "${WHITE} 🙋🏼 tchaaaaaaaau...${GRAY_LIGHT}"
+  printf "${WHITE} tchaaaaaaaau...${GRAY_LIGHT}"
   printf "\n\n"
   printf "${RED} scritp por dgstx & rafaelbok ${GRAY_LIGHT}"
   printf "\n\n"
@@ -141,21 +141,25 @@ software_update() {
   get_repo_wasap
   frontend_update
   backend_update
+  inquiry_options
 }
 
 delete_system() {
   get_instancia_delete
   system_delete
+  inquiry_options
 }
 
 suspend_system() {
   get_instancia_suspend
   system_suspend
+  inquiry_options
 }
 
 resume_system() {
   get_instancia_resume
   system_resume
+  inquiry_options
 }
 install_phpmyadmin() {
   get_sub_phpmy
