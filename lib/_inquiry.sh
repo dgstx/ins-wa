@@ -140,24 +140,19 @@ inquiry_options() {
 
     case "${option}" in
       1) 
-      get_urls 
-      exit
+      get_urls
       ;;       
       2)
-      software_update 
-      exit
+      software_update
       ;;       
       3) 
-      delete_system 
-      exit
+      delete_system
       ;;       
       4) 
-      suspend_system 
-      exit
+      suspend_system
       ;;       
       5) 
-      resume_system 
-      exit
+      resume_system
       ;; 
       
       *) exit ;;
