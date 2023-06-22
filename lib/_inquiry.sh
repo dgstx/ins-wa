@@ -164,6 +164,7 @@ resume_system() {
 install_phpmyadmin() {
   get_sub_phpmy
   phpmyadmin_install
+  inquiry_options
 }
 e_exit() {
   get_exit
