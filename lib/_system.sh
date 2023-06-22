@@ -419,6 +419,7 @@ system_restart() {
   # Lógica para reiniciar a instância específica no pm2
   sudo su - deploy <<EOF
   pm2 restart ${sub_restart}-backend
+  pm2 restart ${sub_restart}-frontend
   pm2 save -f
 EOF
 sleep 2
