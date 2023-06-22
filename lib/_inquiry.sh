@@ -131,11 +131,27 @@ inquiry_options() {
     read -p "> " option
 
     case "${option}" in
-      1) get_urls ;;
-      2) software_update ;;
-      3) delete_system ;;
-      4) suspend_system ;;
-      5) resume_system ;;
+      1) 
+      get_urls 
+      exit
+      ;;       
+      2)
+      software_update 
+      exit
+      ;;       
+      3) 
+      delete_system 
+      exit
+      ;;       
+      4) 
+      suspend_system 
+      exit
+      ;;       
+      5) 
+      resume_system 
+      exit
+      ;; 
+      
       *) exit ;;
 
     esac
