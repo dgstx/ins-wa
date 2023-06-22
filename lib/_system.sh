@@ -287,11 +287,11 @@ system_nginx_conf() {
 
   sleep 2
 
-#sudo su - root << EOF
+sudo su - root << EOF
 
-#cat > /etc/nginx/conf.d/system.conf << 'END'
-#client_max_body_size 20M;
-#END
+cat > /etc/nginx/conf.d/system.conf << 'END'
+client_max_body_size 100M;
+END
 
 #EOF
 
@@ -331,17 +331,28 @@ EOF
 #######################################
 system_delete() {
   print_banner
-  printf "${WHITE} 🚮 Excluindo o sistema Wasap...${GRAY_LIGHT}"
+  printf "${WHITE} 🚮 Excluindo o sistema Wasap de ${instancia_delete}...${GRAY_LIGHT}"
   printf "\n\n"
 
   # Lógica para excluir a instância, usuario do db, db e processo do pm2
-  sudo rm -rf /home/Sistemas/${instancia_add}
-  sudo mysql -e "DROP DATABASE ${instancia_add};"
-  sudo mysql -e "DROP USER '${instancia_add}'@'localhost';"
+  sudo rm -rf /home/Sistemas/${instancia_delete}
+  sudo mysql -e "DROP DATABASE ${instancia_delete};"
+  sudo mysql -e "DROP USER '${instancia_delete}'@'localhost';"
+  cd && rm -rf /etc/nginx/sites-enabled/${instancia_delete}-frontend
+  cd && rm -rf /etc/nginx/sites-enabled/${instancia_delete}-backend  
+  cd && rm -rf /etc/nginx/sites-available/${instancia_delete}-frontend
+  cd && rm -rf /etc/nginx/sites-available/${instancia_delete}-backend
+  cd
   sudo su - Sistemas <<EOF
-  sudo pm2 delete ${instancia_add}
+  sudo pm2 delete ${instancia_delete}-frontend ${instancia_delete}-backend
   pm2 save -f
+
 EOF
+  sleep 2
+
+  print_banner
+  printf "${WHITE} 💻 Remoção da instancia ${instancia_delete} realizado com sucesso ...${GRAY_LIGHT}"
+  printf "\n\n"
 
   sleep 2
 }
@@ -358,7 +369,7 @@ system_suspend() {
 
   # Lógica para suspender a instância específica no pm2
   sudo su - Sistemas <<EOF
-  pm2 stop ${instancia_add}
+  pm2 stop ${instancia_suspend}-backend
   pm2 save -f
 EOF
 
@@ -377,7 +388,7 @@ system_resume() {
 
   # Lógica para retomar a execução do sistema no PM2
   sudo su - Sistemas <<EOF
-  pm2 start ${instancia_add}
+  pm2 start ${instancia_resume}-backend
   pm2 save -f
 EOF
 

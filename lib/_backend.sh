@@ -3,7 +3,7 @@
 # functions for setting up app backend
 
 #######################################
-# creates mysql db using docker
+# creates mysql db
 # Arguments:
 #   None
 #######################################
@@ -60,6 +60,7 @@ PORT=${backend_port}
 
 DB_HOST=localhost
 DB_DIALECT=mysql
+DB_PORT=3306
 DB_USER=${instancia_add}
 DB_PASS=${mysql_password}
 DB_NAME=${instancia_add}
@@ -109,7 +110,6 @@ backend_node_build() {
 
   sudo su - Sistemas <<EOF
   cd /home/Sistemas/${instancia_add}/backend
-  npm install
   npm run build
 EOF
 
@@ -117,7 +117,7 @@ EOF
 }
 
 #######################################
-# updates frontend code
+# updates bankend code
 # Arguments:
 #   None
 #######################################
@@ -129,9 +129,10 @@ backend_update() {
   sleep 2
 
   sudo su - Sistemas <<EOF
-  cd /home/Sistemas/${instancia_add}
+  cd /home/Sistemas/${instancia_up}
+  pm2 stop ${instancia_up}-backend
   git pull
-  cd /home/Sistemas/${instancia_add}/backend
+  cd /home/Sistemas/${instancia_up}/backend
   npm install
   npm update -f
   npm install @types/fs-extra
@@ -139,7 +140,7 @@ backend_update() {
   npm run build
   npx sequelize db:migrate
   npx sequelize db:seed
-  pm2 restart all
+  pm2 start ${instancia_up}-backend
 EOF
 
   sleep 2

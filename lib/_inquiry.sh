@@ -47,25 +47,25 @@ get_backend_port() {
   read -p "> " backend_port
 }
 
-get_instancia_add_delete() {
+get_instancia_delete() {
   print_banner
   printf "${WHITE} 💻 Digite o nome da instância que deseja excluir:${GRAY_LIGHT}"
   printf "\n\n"
-  read -p "> " instancia_add
+  read -p "> " instancia_delete
 }
 
-get_instancia_add_suspend() {
+get_instancia_suspend() {
   print_banner
   printf "${WHITE} 💻 Digite o nome da instância que deseja suspender:${GRAY_LIGHT}"
   printf "\n\n"
-  read -p "> " instancia_add
+  read -p "> " instancia_suspend
 }
 
-get_instancia_add_suspend() {
+get_instancia_resume() {
   print_banner
   printf "${WHITE} 💻 Digite o nome da instância que deseja retomar da suspensão:${GRAY_LIGHT}"
   printf "\n\n"
-  read -p "> " instancia_add
+  read -p "> " instancia_resume
 }
 
 get_max_whats() {
@@ -84,6 +84,14 @@ get_max_user() {
   read -p "> " max_user
 }
 
+get_instancia_up() {
+  
+  print_banner
+  printf "${WHITE} 🔄️ Digite o nome da instancia a ser atualizada (Utilizar Letras minusculas):${GRAY_LIGHT}"
+  printf "\n\n"
+  read -p "> " instancia_up
+}
+
 
 get_urls() {
   get_instancia_add
@@ -97,23 +105,24 @@ get_urls() {
 }
 
 software_update() {
-  
+
+  get_instancia_up
   frontend_update
   backend_update
 }
 
 delete_system() {
-  get_instancia_add_delete
+  get_instancia_delete
   system_delete
 }
 
 suspend_system() {
-  get_instancia_add_suspend
+  get_instancia_suspend
   system_suspend
 }
 
 resume_system() {
-  get_instancia_add_resume
+  get_instancia_resume
   system_resume
 }
 
@@ -123,7 +132,7 @@ inquiry_options() {
     printf "${WHITE} 💻 Escolha uma das opções!${GRAY_LIGHT}"
     printf "\n\n"
     printf "   [1] Instalar Instância\n"
-    printf "   [2] Atualizar Instância\n"
+    printf "   [2] Atualizar Instância\n"   
     printf "   [3] Excluir Instância\n"
     printf "   [4] Suspender Instância\n"
     printf "   [5] Retomar Instância\n"

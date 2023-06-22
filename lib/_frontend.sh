@@ -36,7 +36,6 @@ frontend_node_build() {
 
   sudo su - Sistemas <<EOF
   cd /home/Sistemas/${instancia_add}/frontend
-  npm install
   npm run build
 EOF
 
@@ -54,15 +53,16 @@ frontend_update() {
   printf "\n\n"
 
   sleep 2
-
+  #verificar variavel update --ok
   sudo su - Sistemas <<EOF
-  cd /home/Sistemas/${instancia_add}
+  cd /home/Sistemas/${instancia_up}
+  pm2 stop ${instancia_up}-frontend
   git pull
-  cd /home/Sistemas/${instancia_add}/frontend
+  cd /home/Sistemas/${instancia_up}/frontend
   npm install
   rm -rf build
   npm run build
-  pm2 restart all
+  pm2 restart ${instancia_up}-frontend
 EOF
 
   sleep 2
