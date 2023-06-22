@@ -10,3 +10,7 @@ INSTALAÇÕES ADICIONAIS:
 cd && cd ./installer && sudo ./demais-instancias
 ```
 
+ UPDATE DO INSTALADOR:
+```bash
+cd && rm -rf ./installer && git clone https://github.com/dgstx/projeto3.git installer && sudo chmod -R 777 ./installer && cd ./installer && sudo ./demais-instancias
+````
