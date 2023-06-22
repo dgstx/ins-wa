@@ -229,5 +229,4 @@ inquiry_options() {
     esac
 }
 
-inquiry_options
 
