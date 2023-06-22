@@ -293,9 +293,9 @@ cat > /etc/nginx/conf.d/system.conf << 'END'
 client_max_body_size 100M;
 END
 
-#EOF
+EOF
 
-  #sleep 2
+  sleep 2
 }
 
 #######################################
@@ -336,15 +336,16 @@ system_delete() {
 
   # Lógica para excluir a instância, usuario do db, db e processo do pm2
   sudo rm -rf /home/deploy/${instancia_delete}
-  sudo mysql -e "DROP DATABASE ${instancia_delete};"
-  sudo mysql -e "DROP USER '${instancia_delete}'@'localhost';"
+  sudo mysql -e "DROP DATABASE IF EXISTS ${instancia_delete};"
+  sudo mysql -e "DROP USER IF EXISTS '${instancia_delete}'@'localhost';"
   cd && rm -rf /etc/nginx/sites-enabled/${instancia_delete}-frontend
   cd && rm -rf /etc/nginx/sites-enabled/${instancia_delete}-backend  
   cd && rm -rf /etc/nginx/sites-available/${instancia_delete}-frontend
   cd && rm -rf /etc/nginx/sites-available/${instancia_delete}-backend
   cd
   sudo su - deploy <<EOF
-  sudo pm2 delete ${instancia_delete}-frontend ${instancia_delete}-backend
+  pm2 delete ${instancia_delete}-frontend
+  pm2 delete ${instancia_delete}-backend
   pm2 save -f
 
 EOF
