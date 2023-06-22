@@ -450,9 +450,17 @@ phpmyadmin_install() {
   print_banner
   printf "${WHITE} 🌐 Instalando PHPMYADMIN em ${sub_phpmy}.wasap.com.br...${GRAY_LIGHT}"
   printf "\n\n"
+ 
+  #limpa registro
+  sudo rm -f /etc/nginx/sites-available/${sub_phpmy}
+  sudo rm -f /etc/nginx/sites-enabled/${sub_phpmy}
+  sudo rm -rf /var/www/html/${sub_phpmy}
+
+  # Instalar pacotes gettext e php7.4-gettext
+  sudo apt install -y gettext php7.4-gettext
 
   # Lógica para instalação do phpMyAdmin no servidor
-  sudo apt install -y phpmyadmin php-mbstring php-gettext
+  sudo apt install -y phpmyadmin php-mbstring
 
   #limpa nginx
   sudo rm -f /etc/nginx/sites-available/${sub_phpmy}
