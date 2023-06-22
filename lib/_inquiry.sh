@@ -105,7 +105,6 @@ get_urls() {
 }
 
 software_update() {
-
   get_instancia_up
   frontend_update
   backend_update

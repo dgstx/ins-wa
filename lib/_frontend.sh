@@ -36,6 +36,7 @@ frontend_node_build() {
 
   sudo su - deploy <<EOF
   cd /home/deploy/${instancia_add}/frontend
+  cp src/config.json.example src/config.json
   npm run build
 EOF
 
@@ -90,6 +91,7 @@ sudo su - deploy << EOF
   cat <<[-]EOF > /home/deploy/${instancia_add}/frontend/.env
 REACT_APP_BACKEND_URL=${backend_url}
 REACT_APP_HOURS_CLOSE_TICKETS_AUTO = 24
+SERVER_PORT = ${frontend_port}
 [-]EOF
 EOF
 

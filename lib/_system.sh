@@ -374,6 +374,12 @@ system_suspend() {
 EOF
 
   sleep 2
+
+  print_banner
+  printf "${WHITE} ⛔ Bloqueio da Instancia ${instancia_suspend} realizado com sucesso ...${GRAY_LIGHT}"
+  printf "\n\n"
+
+  sleep 2
 }
 
 #######################################
@@ -391,6 +397,12 @@ system_resume() {
   pm2 start ${instancia_resume}-backend
   pm2 save -f
 EOF
+
+  sleep 2
+
+  print_banner
+  printf "${WHITE} ▶️ Desbloqueio da Instancia ${instancia_resume} realizado com sucesso ...${GRAY_LIGHT}"
+  printf "\n\n"
 
   sleep 2
 }
