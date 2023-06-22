@@ -197,9 +197,6 @@ inquiry_options() {
       0)
       e_exit
       ;;
-      *)
-      printf "${RED}Opção inválida.${GRAY}\n" 
-      ;;
         
     esac
   done
