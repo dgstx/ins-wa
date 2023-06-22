@@ -338,6 +338,7 @@ system_delete() {
   if [ "$confirmation" != "$instancia_delete" ]; then
     printf "${RED} ❌ Confirmação inválida. Cancelando a exclusão da instância...${GRAY_LIGHT}"
     printf "\n\n"
+    sleep 2
     return
   fi
 
