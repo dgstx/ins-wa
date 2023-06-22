@@ -110,6 +110,14 @@ get_sub_phpmy() {
   printf "\n\n"
   read -p "> " sub_phpmy
 }
+get_exit() {
+  print_banner
+  printf "${WHITE} 🙋🏼‍ Saindo do script...${GRAY_LIGHT}"
+  printf "\n\n"
+sleep 4
+  exit
+}
+
 
 get_urls() {
   get_instancia_add
@@ -148,11 +156,8 @@ install_phpmyadmin() {
   get_sub_phpmy
   phpmyadmin_install
 }
-exit() {
-  print_banner
-  printf "${WHITE} 🙋🏼‍ Saindo do script...${GRAY_LIGHT}"
-  printf "\n\n"
-  exit
+e_exit() {
+  get_exit
 }
 
 inquiry_options() {
@@ -190,10 +195,12 @@ inquiry_options() {
       install_phpmyadmin
       ;;
       0)
-      exit
-        ;;
+      e_exit
+      ;;
       *)
-        printf "${RED}Opção inválida.${GRAY}\n" ;;
+      printf "${RED}Opção inválida.${GRAY}\n" 
+      ;;
+        
     esac
   done
 }
