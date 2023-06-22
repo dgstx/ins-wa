@@ -142,7 +142,6 @@ get_urls() {
   get_backend_port
   get_max_whats
   get_max_user
-  get_exit
 }
 
 software_update() {
