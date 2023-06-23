@@ -450,9 +450,10 @@ phpmyadmin_install() {
   print_banner
   printf "${WHITE} 🌐 Instalando PHPMYADMIN em ${sub_phpmy}.wasap.com.br...${GRAY_LIGHT}"
   printf "\n\n"
- #limpa nginx
-  sudo rm -f /etc/nginx/sites-available/${sub_phpmy}
-  sudo rm -f /etc/nginx/sites-enabled/${sub_phpmy}
+
+  # Limpar configurações do Apache existentes
+  sudo rm -f /etc/nginx/sites-available/${sub_phpmy}.conf
+  sudo rm -f /etc/nginx/sites-enabled/${sub_phpmy}.conf
   sudo rm -rf /var/www/html/${sub_phpmy}
 
   # Instalar pacotes gettext e php7.4-gettext
@@ -461,36 +462,57 @@ phpmyadmin_install() {
   # Lógica para instalação do phpMyAdmin no servidor
   sudo apt install -y phpmyadmin php-mbstring
 
-  #limpa nginx
-  sudo rm -f /etc/nginx/sites-available/${sub_phpmy}
-  sudo rm -f /etc/nginx/sites-enabled/${sub_phpmy}
-
-  # Criar link simbólico para o diretório do phpMyAdmin no diretório do Nginx
+  # Criar link simbólico para o diretório do phpMyAdmin no diretório do Apache
   sudo ln -s /usr/share/phpmyadmin /var/www/html/${sub_phpmy}
-  # Configurar o arquivo de host do Nginx para o subdomínio do phpMyAdmin
+
+  # Configurar o arquivo de host do Apache para o subdomínio do phpMyAdmin
+  sudo tee /etc/apache2/sites-available/${sub_phpmy}.conf << EOF
+    <VirtualHost *:8080>
+      ServerAdmin webmaster@localhost
+      DocumentRoot /var/www/html/${sub_phpmy}
+    
+      ErrorLog \${APACHE_LOG_DIR}/error.log
+      CustomLog \${APACHE_LOG_DIR}/access.log combined
+    
+      <Directory /var/www/html/${sub_phpmy}>
+        Options Indexes FollowSymLinks
+        AllowOverride All
+        Require all granted
+      </Directory>
+    </VirtualHost>
+EOF
+
+  # Ativar o arquivo de host do phpMyAdmin no Apache
+  sudo a2ensite ${sub_phpmy}.conf
+
+  # Habilitar o módulo proxy do Apache
+  sudo a2enmod proxy
+  sudo a2enmod proxy_http
+
+  # Configurar o proxy reverso no Nginx para redirecionar o tráfego para o Apache na porta 8080
   sudo tee /etc/nginx/sites-available/${sub_phpmy} << EOF
     server {
-    listen 80;
-    server_name ${sub_phpmy}.wasap.com.br;
+      listen 80;
+      server_name ${sub_phpmy}.wasap.com.br;
 
-    location / {
-        root /var/www/html/${sub_phpmy};
-        index index.php index.html index.htm;
+      location / {
+        proxy_pass http://localhost:8080;
+        proxy_set_header Host \$host;
+        proxy_set_header X-Real-IP \$remote_addr;
+        proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto \$scheme;
+      }
     }
-
-    location ~ \.php$ {
-        include snippets/fastcgi-php.conf;
-        fastcgi_pass unix:/run/php/php7.4-fpm.sock;
-        fastcgi_param SCRIPT_FILENAME \$document_root\$fastcgi_script_name;
-        include fastcgi_params;
-    }
-}
 EOF
+
+  # Desativar o arquivo de host padrão do Nginx
+  sudo unlink /etc/nginx/sites-enabled/default
 
   # Ativar o arquivo de host do phpMyAdmin no Nginx
   sudo ln -s /etc/nginx/sites-available/${sub_phpmy} /etc/nginx/sites-enabled/
 
-  # Reiniciar o serviço do Nginx para aplicar as alterações
+  # Reiniciar os serviços do Apache e Nginx para aplicar as alterações
+  sudo systemctl restart apache2
   sudo systemctl restart nginx
 
   sleep 2
@@ -498,5 +520,7 @@ EOF
   printf "${WHITE} ✅ Instalação do PHPMYADMIN realizada com sucesso ...${GRAY_LIGHT}"
   printf "\n\n"
   sleep 2
+}
+
 }
 
