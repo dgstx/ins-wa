@@ -467,6 +467,7 @@ phpmyadmin_install() {
   sudo rm -f /etc/nginx/sites-enabled/${sub_phpmy}
 
   # Criar link simbólico para o diretório do phpMyAdmin no diretório do Nginx
+  sudo mkdir -p /var/www/html/
   sudo ln -s /usr/share/phpmyadmin /var/www/html/${sub_phpmy}
   # Configurar o arquivo de host do Nginx para o subdomínio do phpMyAdmin
   sudo tee /etc/nginx/sites-available/${sub_phpmy} << EOF
