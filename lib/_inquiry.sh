@@ -179,6 +179,16 @@ restart_system() {
   inquiry_options
 }
 
+list_system() {
+  pm2_list
+  inquiry_options
+}
+
+status_pm2() {
+  pm2_console
+  inquiry_options
+}
+
 e_exit() {
   get_exit
 }
@@ -190,13 +200,16 @@ inquiry_options() {
     printf "\n\n"
     printf "   [1] Instalar Instancia\n"
     printf "   [2] Atualizar Instancia\n"   
-    printf "   [3] Excluir Instancia\n"
-    printf "   [4] Suspender Instancia\n"
-    printf "   [5] Retomar Instancia\n"
-    printf "   [6] Instalar phpmyadmin\n"
-    printf "   [7] Reiniciar Instancia\n"
+    printf "   [3] Suspender Instancia\n"
+    printf "   [4] Retomar Instancia\n"
+    printf "   [5] Reiniciar Instancia\n"
+    printf "   [6] Listar Instancias\n"
+    printf "   [7] Status do PM2\n]"
     printf "\n"
-    printf "   [0] Sair\n"
+    printf "   [d] Excluir Instancia\n"
+    printf "\n"
+    printf "   [a] Instalar phpmyadmin\n"
+    printf "   [q] Sair\n"
     printf "\n"
     read -p "> " option
 
@@ -208,21 +221,27 @@ inquiry_options() {
       software_update
       ;;       
       3) 
-      delete_system
-      ;;       
-      4) 
       suspend_system
       ;;       
-      5) 
+      4) 
       resume_system
       ;; 
-      6)
-      install_phpmyadmin
-      ;;
-      7)
+      5)
       restart_system
       ;;
-      0)
+      6)
+      list_system
+      ;;
+      7)
+      status_system
+      ;;
+      d) 
+      delete_system
+      ;;     
+      a)
+      install_phpmyadmin
+      ;;
+      q)
       e_exit
       ;;
         
