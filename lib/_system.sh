@@ -588,10 +588,6 @@ pm2_console() {
   printf "${WHITE} ✅ Entrada no console do PM2 realizada com sucesso ...${GRAY_LIGHT}"
   printf "\n\n"
   sudo -u deploy pm2 monit
-  #parar até usuario pressionar enter
-  read -p "Pressione [enter] para continuar..."
-  sleep 1
-  exit
 }
 
 
