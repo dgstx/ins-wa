@@ -448,72 +448,35 @@ sleep 2
 #######################################
 phpmyadmin_install() {
   print_banner
-  printf "${WHITE} 🌐 Instalando PHPMYADMIN em ${sub_phpmy}.wasap.com.br...${GRAY_LIGHT}"
+  printf "${WHITE} 🌐 Instalando PHPMYADMIN...${GRAY_LIGHT}"
   printf "\n\n"
 
-  # Limpar configurações do Apache existentes
-  sudo rm -f /etc/nginx/sites-available/${sub_phpmy}.conf
-  sudo rm -f /etc/nginx/sites-enabled/${sub_phpmy}.conf
-  sudo rm -rf /var/www/html/${sub_phpmy}
+  # Instalando o PHP para o phpMyAdmin
+  apt-get install php -y
 
-  # Instalar pacotes gettext e php7.4-gettext
-  sudo apt install -y gettext php7.4-gettext
+  # Baixando o phpMyAdmin e configurando a instalação não interativa
+  wget https://www.phpmyadmin.net/downloads/phpMyAdmin-latest-all-languages.tar.gz
+  tar xzf phpMyAdmin-latest-all-languages.tar.gz
+  mv phpMyAdmin-*-all-languages /usr/share/phpmyadmin
+  mkdir /usr/share/phpmyadmin/tmp
+  chown -R www-data:www-data /usr/share/phpmyadmin
+  chmod 777 /usr/share/phpmyadmin/tmp
+  cp /usr/share/phpmyadmin/config.sample.inc.php /usr/share/phpmyadmin/config.inc.php
+  sed -i "s/localhost/phpmyadmin/g" /usr/share/phpmyadmin/config.inc.php
+  sed -i "s/\(\$cfg\['blowfish_secret'\] = \).*/\1'f98h3q4hg4hgj4';/" /usr/share/phpmyadmin/config.inc.php
+  echo "phpmyadmin phpmyadmin/reconfigure-webserver multiselect apache2" | debconf-set-selections
+  echo "phpmyadmin phpmyadmin/dbconfig-install boolean true" | debconf-set-selections
+  echo "phpmyadmin phpmyadmin/mysql/admin-user string root" | debconf-set-selections
+  echo "phpmyadmin phpmyadmin/mysql/admin-pass password ${senha_root_mysql}" | debconf-set-selections
+  echo "phpmyadmin phpmyadmin/mysql/app-pass password ${senha_root_mysql}" | debconf-set-selections
+  echo "phpmyadmin phpmyadmin/app-password-confirm password ${senha_root_mysql}" | debconf-set-selections
 
-  # Lógica para instalação do phpMyAdmin no servidor
-  sudo apt install -y phpmyadmin php-mbstring
+  # Alterando a porta do Apache para 8080
+  sed -i "s/Listen 80/Listen 8080/" /etc/apache2/ports.conf
+  sed -i "s/<VirtualHost \*:80>/<VirtualHost \*:8080>/" /etc/apache2/sites-available/000-default.conf
 
-  # Criar link simbólico para o diretório do phpMyAdmin no diretório do Apache
-  sudo ln -s /usr/share/phpmyadmin /var/www/html/${sub_phpmy}
-
-  # Configurar o arquivo de host do Apache para o subdomínio do phpMyAdmin
-  sudo tee /etc/apache2/sites-available/${sub_phpmy}.conf << EOF
-    <VirtualHost *:8080>
-      ServerAdmin webmaster@localhost
-      DocumentRoot /var/www/html/${sub_phpmy}
-    
-      ErrorLog \${APACHE_LOG_DIR}/error.log
-      CustomLog \${APACHE_LOG_DIR}/access.log combined
-    
-      <Directory /var/www/html/${sub_phpmy}>
-        Options Indexes FollowSymLinks
-        AllowOverride All
-        Require all granted
-      </Directory>
-    </VirtualHost>
-EOF
-
-  # Ativar o arquivo de host do phpMyAdmin no Apache
-  sudo a2ensite ${sub_phpmy}.conf
-
-  # Habilitar o módulo proxy do Apache
-  sudo a2enmod proxy
-  sudo a2enmod proxy_http
-
-  # Configurar o proxy reverso no Nginx para redirecionar o tráfego para o Apache na porta 8080
-  sudo tee /etc/nginx/sites-available/${sub_phpmy} << EOF
-    server {
-      listen 80;
-      server_name ${sub_phpmy}.wasap.com.br;
-
-      location / {
-        proxy_pass http://localhost:8080;
-        proxy_set_header Host \$host;
-        proxy_set_header X-Real-IP \$remote_addr;
-        proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
-        proxy_set_header X-Forwarded-Proto \$scheme;
-      }
-    }
-EOF
-
-  # Desativar o arquivo de host padrão do Nginx
-  sudo unlink /etc/nginx/sites-enabled/default
-
-  # Ativar o arquivo de host do phpMyAdmin no Nginx
-  sudo ln -s /etc/nginx/sites-available/${sub_phpmy} /etc/nginx/sites-enabled/
-
-  # Reiniciar os serviços do Apache e Nginx para aplicar as alterações
-  sudo systemctl restart apache2
-  sudo systemctl restart nginx
+  # Reiniciando o Apache
+  service apache2 restart
 
   sleep 2
   print_banner
@@ -522,5 +485,4 @@ EOF
   sleep 2
 }
 
-}
 

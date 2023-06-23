@@ -170,11 +170,8 @@ resume_system() {
   inquiry_options
 }
 install_phpmyadmin() {
-  get_sub_phpmy
   get_mysql_password
   phpmyadmin_install
-  
-
 }
 restart_system() {
   get_restart
