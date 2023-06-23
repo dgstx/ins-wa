@@ -442,62 +442,70 @@ sleep 2
 
 
 #######################################
-# install phpmyadmin
+# Instalar o phpMyAdmin no Ubuntu 20.04 com Nginx
 # Arguments:
 #   None
 #######################################
 phpmyadmin_install() {
   print_banner
-  printf "${WHITE} 🌐 Instalando PHPMYADMIN em ${sub_phpmy}.wasap.com.br...${GRAY_LIGHT}"
+  printf "${WHITE} 🌐 Instalando phpMyAdmin em ${sub_phpmy}.wasap.com.br...${GRAY_LIGHT}"
   printf "\n\n"
- 
-  #limpa registro
+
+  # Limpar registros do Nginx
   sudo rm -f /etc/nginx/sites-available/${sub_phpmy}
   sudo rm -f /etc/nginx/sites-enabled/${sub_phpmy}
   sudo rm -rf /var/www/html/${sub_phpmy}
 
-  # Instalar pacotes gettext e php7.4-gettext
-  sudo apt install -y gettext php7.4-gettext
-
-  # Lógica para instalação do phpMyAdmin no servidor
-  sudo apt install -y phpmyadmin php-mbstring
-
-  #limpa nginx
-  sudo rm -f /etc/nginx/sites-available/${sub_phpmy}
-  sudo rm -f /etc/nginx/sites-enabled/${sub_phpmy}
+  # Instalar dependências necessárias
+  sudo apt update
+  sudo apt install -y nginx phpmyadmin php7.4-mbstring
 
   # Criar link simbólico para o diretório do phpMyAdmin no diretório do Nginx
   sudo mkdir -p /var/www/html/
   sudo ln -s /usr/share/phpmyadmin /var/www/html/${sub_phpmy}
+
   # Configurar o arquivo de host do Nginx para o subdomínio do phpMyAdmin
-  sudo tee /etc/nginx/sites-available/${sub_phpmy} << EOF
-    server {
+  sudo tee /etc/nginx/conf.d/${sub_phpmy}.conf << EOF
+  server {
     listen 80;
+    listen [::]:80;
     server_name ${sub_phpmy}.wasap.com.br;
+    root /var/www/html/${sub_phpmy};
+    index index.php index.html index.htm index.nginx-debian.html;
+
+    access_log /var/log/nginx/${sub_phpmy}_access.log;
+    error_log /var/log/nginx/${sub_phpmy}_error.log;
 
     location / {
-        root /var/www/html/${sub_phpmy};
-        index index.php index.html index.htm;
+      try_files \$uri \$uri/ /index.php;
+    }
+
+    location ~ ^/(doc|sql|setup)/ {
+      deny all;
     }
 
     location ~ \.php$ {
-        include snippets/fastcgi-php.conf;
-        fastcgi_pass unix:/run/php/php7.4-fpm.sock;
-        fastcgi_param SCRIPT_FILENAME \$document_root\$fastcgi_script_name;
-        include fastcgi_params;
+      include snippets/fastcgi-php.conf;
+      fastcgi_pass unix:/run/php/php7.4-fpm.sock;
+      fastcgi_param SCRIPT_FILENAME \$document_root\$fastcgi_script_name;
+      include fastcgi_params;
     }
-}
+
+    location ~ /\.ht {
+      deny all;
+    }
+  }
 EOF
 
   # Ativar o arquivo de host do phpMyAdmin no Nginx
-  sudo ln -s /etc/nginx/sites-available/${sub_phpmy} /etc/nginx/sites-enabled/
+  sudo ln -s /etc/nginx/conf.d/${sub_phpmy}.conf /etc/nginx/sites-enabled/
 
   # Reiniciar o serviço do Nginx para aplicar as alterações
   sudo systemctl restart nginx
 
   sleep 2
   print_banner
-  printf "${WHITE} ✅ Instalação do PHPMYADMIN realizada com sucesso ...${GRAY_LIGHT}"
+  printf "${WHITE} ✅ Instalação do phpMyAdmin concluída com sucesso.${GRAY_LIGHT}"
   printf "\n\n"
   sleep 2
 }
