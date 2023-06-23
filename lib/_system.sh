@@ -471,6 +471,9 @@ phpmyadmin_install() {
 # Configuração do arquivo config.inc.php
 sudo bash -c "cat > /usr/share/phpmyadmin/config.inc.php <<EOF
 <?php
+\\\declare(strict_types=1);
+\\\$i = 0;
+\\\$i++;
 \\\$cfg['blowfish_secret'] = '7627cb9027e713e301e83a8f13057055';
 \\\$cfg['Servers'][\\\$i]['auth_type'] = 'cookie';
 \\\$cfg['Servers'][\\\$i]['host'] = 'localhost';
