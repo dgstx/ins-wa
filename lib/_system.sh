@@ -441,10 +441,6 @@ sleep 2
 }
 
 
-#######################################
-# install phpmyadmin
-# Arguments:
-#   None
 phpmyadmin_install() {
   print_banner
   printf "${WHITE} 🌐 Instalando PHPMYADMIN...${GRAY_LIGHT}"
@@ -471,6 +467,38 @@ phpmyadmin_install() {
   sudo echo "phpmyadmin phpmyadmin/mysql/app-pass password ${mysql_root_password}" | sudo debconf-set-selections
   sudo echo "phpmyadmin phpmyadmin/app-password-confirm password ${mysql_root_password}" | sudo debconf-set-selections
 
+  # Injetando as informações no arquivo de configuração do phpMyAdmin
+  sudo sed -i "s/\(\$cfg\['Servers'\]\[\$i\]\['pmadb'\] = \).*/\1'phpmyadmin';/" /usr/share/phpmyadmin/config.inc.php
+  sudo sed -i "s/\(\$cfg\['Servers'\]\[\$i\]\['bookmarktable'\] = \).*/\1'pma__bookmark';/" /usr/share/phpmyadmin/config.inc.php
+  sudo sed -i "s/\(\$cfg\['Servers'\]\[\$i\]\['relation'\] = \).*/\1'pma__relation';/" /usr/share/phpmyadmin/config.inc.php
+  sudo sed -i "s/\(\$cfg\['Servers'\]\[\$i\]\['table_info'\] = \).*/\1'pma__table_info';/" /usr/share/phpmyadmin/config.inc.php
+  sudo sed -i "s/\(\$cfg\['Servers'\]\[\$i\]\['table_coords'\] = \).*/\1'pma__table_coords';/" /usr/share/phpmyadmin/config.inc.php
+  sudo sed -i "s/\(\$cfg\['Servers'\]\[\$i\]\['pdf_pages'\] = \).*/\1'pma__pdf_pages';/" /usr/share/phpmyadmin/config.inc.php
+  sudo sed -i "s/\(\$cfg\['Servers'\]\[\$i\]\['column_info'\] = \).*/\1'pma__column_info';/" /usr/share/phpmyadmin/config.inc.php
+  sudo sed -i "s/\(\$cfg\['Servers'\]\[\$i\]\['history'\] = \).*/\1'pma__history';/" /usr/share/phpmyadmin/config.inc.php
+  sudo sed -i "s/\(\$cfg\['Servers'\]\[\$i\]\['table_uiprefs'\] = \).*/\1'pma__table_uiprefs';/" /usr/share/phpmyadmin/config.inc.php
+  sudo sed -i "s/\(\$cfg\['Servers'\]\[\$i\]\['tracking'\] = \).*/\1'pma__tracking';/" /usr/share/phpmyadmin/config.inc.php
+  sudo sed -i "s/\(\$cfg\['Servers'\]\[\$i\]\['userconfig'\] = \).*/\1'pma__userconfig';/" /usr/share/phpmyadmin/config.inc.php
+  sudo sed -i "s/\(\$cfg\['Servers'\]\[\$i\]\['recent'\] = \).*/\1'pma__recent';/" /usr/share/phpmyadmin/config.inc.php
+  sudo sed -i "s/\(\$cfg\['Servers'\]\[\$i\]\['favorite'\] = \).*/\1'pma__favorite';/" /usr/share/phpmyadmin/config.inc.php
+  sudo sed -i "s/\(\$cfg\['Servers'\]\[\$i\]\['users'\] = \).*/\1'pma__users';/" /usr/share/phpmyadmin/config.inc.php
+  sudo sed -i "s/\(\$cfg\['Servers'\]\[\$i\]\['usergroups'\] = \).*/\1'pma__usergroups';/" /usr/share/phpmyadmin/config.inc.php
+  sudo sed -i "s/\(\$cfg\['Servers'\]\[\$i\]\['navigationhiding'\] = \).*/\1'pma__navigationhiding';/" /usr/share/phpmyadmin/config.inc.php
+  sudo sed -i "s/\(\$cfg\['Servers'\]\[\$i\]\['savedsearches'\] = \).*/\1'pma__savedsearches';/" /usr/share/phpmyadmin/config.inc.php
+  sudo sed -i "s/\(\$cfg\['Servers'\]\[\$i\]\['central_columns'\] = \).*/\1'pma__central_columns';/" /usr/share/phpmyadmin/config.inc.php
+  sudo sed -i "s/\(\$cfg\['Servers'\]\[\$i\]\['designer_settings'\] = \).*/\1'pma__designer_settings';/" /usr/share/phpmyadmin/config.inc.php
+  sudo sed -i "s/\(\$cfg\['Servers'\]\[\$i\]\['export_templates'\] = \).*/\1'pma__export_templates';/" /usr/share/phpmyadmin/config.inc.php
+
+   # Removendo as configurações anteriores do servidor no arquivo de configuração
+  sudo sed -i '/\(\$cfg\['\''Servers'\''\]\['\''host'\''\] = \).*/d' /usr/share/phpmyadmin/config.inc.php
+  sudo sed -i '/\(\$cfg\['\''Servers'\''\]\['\''compress'\''\] = \).*/d' /usr/share/phpmyadmin/config.inc.php
+  sudo sed -i '/\(\$cfg\['\''Servers'\''\]\['\''AllowNoPassword'\''\] = \).*/d' /usr/share/phpmyadmin/config.inc.php
+
+  # Injetando as novas configurações do servidor no arquivo de configuração
+  sudo sed -i "/^\$cfg\['Servers'\]\[\$i\]\['host'\] = .*/a \$cfg['Servers'][\$i]['host'] = 'localhost';" /usr/share/phpmyadmin/config.inc.php
+  sudo sed -i "/^\$cfg\['Servers'\]\[\$i\]\['compress'\] = .*/a //\$cfg['Servers'][\$i]['compress'] = false;" /usr/share/phpmyadmin/config.inc.php
+  sudo sed -i "/^\$cfg\['Servers'\]\[\$i\]\['AllowNoPassword'\] = .*/a \$cfg['Servers'][\$i]['AllowNoPassword'] = false;" /usr/share/phpmyadmin/config.inc.php
+
   # Alterando a porta do Apache para 8080
   sudo sed -i "s/Listen 80/Listen 8080/" /etc/apache2/ports.conf
   sudo sed -i "s/<VirtualHost \*:80>/<VirtualHost \*:8080>/" /etc/apache2/sites-available/000-default.conf
@@ -485,5 +513,6 @@ phpmyadmin_install() {
   sleep 3
   exit
 }
+
 
 
