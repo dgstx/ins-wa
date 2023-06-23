@@ -487,7 +487,7 @@ fastcgi.server = (
 
 server.document-root = "/var/www/html/${sub_phpmy}"
 
-server.port = 6666
+server.port = 8888
 server.bind = "0.0.0.0"
 
 mimetype.assign = (
