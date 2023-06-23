@@ -185,7 +185,7 @@ list_system() {
 }
 
 status_pm2() {
-  pm2_console
+  pm2_monitor
   inquiry_options
 }
 
