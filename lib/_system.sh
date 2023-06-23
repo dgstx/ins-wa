@@ -458,7 +458,7 @@ phpmyadmin_install() {
   sudo wget https://www.phpmyadmin.net/downloads/phpMyAdmin-latest-all-languages.tar.gz
   sudo tar xzf phpMyAdmin-latest-all-languages.tar.gz
   sudo mv phpMyAdmin-*-all-languages /usr/share/phpmyadmin
-  sudo mkdir /usr/share/phpmyadmin/tmp
+  sudo mkdir -p /usr/share/phpmyadmin/tmp
   sudo chown -R www-data:www-data /usr/share/phpmyadmin
   sudo chmod 777 /usr/share/phpmyadmin/tmp
   sudo cp /usr/share/phpmyadmin/config.sample.inc.php /usr/share/phpmyadmin/config.inc.php
@@ -476,7 +476,7 @@ phpmyadmin_install() {
   sudo sed -i "s/<VirtualHost \*:80>/<VirtualHost \*:8080>/" /etc/apache2/sites-available/000-default.conf
 
   # Reiniciando o Apache
-  sudo service apache2 restart
+  sudo systemctl restart apache2
 
   sleep 2
   print_banner
