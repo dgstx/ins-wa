@@ -440,16 +440,20 @@ sleep 2
   sleep 2
 }
 
-
+#######################################
+# phpmyadmin install
+# Arguments:
+#   None
+#######################################
 phpmyadmin_install() {
   print_banner
   printf "${WHITE} 🌐 Instalando PHPMYADMIN...${GRAY_LIGHT}"
   printf "\n\n"
 
-# Instalando o Apache e o PHP
+  # Install Apache and PHP
   sudo apt-get install apache2 php -y
 
-# Baixando o phpMyAdmin e configurando a instalação não interativa
+  # Download phpMyAdmin and configure non-interactive installation
   sudo wget https://www.phpmyadmin.net/downloads/phpMyAdmin-latest-all-languages.tar.gz
   sudo tar xzf phpMyAdmin-latest-all-languages.tar.gz
   sudo rm -rf /usr/share/phpmyadmin
@@ -457,224 +461,54 @@ phpmyadmin_install() {
   sudo mkdir -p /usr/share/phpmyadmin/tmp
   sudo chown -R www-data:www-data /usr/share/phpmyadmin
   sudo chmod 777 /usr/share/phpmyadmin/tmp
-  sudo echo "phpmyadmin phpmyadmin/reconfigure-webserver multiselect apache2" | sudo debconf-set-selections
-  sudo echo "phpmyadmin phpmyadmin/dbconfig-install boolean true" | sudo debconf-set-selections
-  sudo echo "phpmyadmin phpmyadmin/mysql/admin-user string root" | sudo debconf-set-selections
-  sudo echo "phpmyadmin phpmyadmin/mysql/admin-pass password ${mysql_root_password}" | sudo debconf-set-selections
-  sudo echo "phpmyadmin phpmyadmin/mysql/app-pass password ${mysql_root_password}" | sudo debconf-set-selections
-  sudo echo "phpmyadmin phpmyadmin/app-password-confirm password ${mysql_root_password}" | sudo debconf-set-selections
 
- # Injetando as informações no arquivo de configuração do phpMyAdmin
-  sudo bash -c "cat > /usr/share/phpmyadmin/config.inc.php <<EOF
-  <?php
-  /**
-  * phpMyAdmin sample configuration, you can use it as base for
-  * manual configuration. For easier setup you can use setup/
-  *
-  * All directives are explained in documentation in the doc/ folder
-  * or at <https://docs.phpmyadmin.net/>.
-  */
-
-  declare(strict_types=1);
-
-  /**
-  * This is needed for cookie based authentication to encrypt the cookie.
-  * Needs to be a 32-bytes long string of random bytes. See FAQ 2.10.
-  */
+  # Inject configuration into phpMyAdmin config file
+  sudo bash -c "cat <<EOF > /usr/share/phpmyadmin/config.inc.php
   \$cfg['blowfish_secret'] = '7627cb9027e713e301e83a8f13057055';
-   
-  /**
-  * Servers configuration
-  */
+
   \$i = 0;
-  
-  /**
-  * First server
-  */
-  \$i++;
-  /* Authentication type */
-  \$cfg['Servers'][\$i]['auth_type'] = 'cookie';
-  /* Server parameters */
-  \$cfg['Servers'][\$i]['host'] = 'localhost';
-  \$cfg['Servers'][\$i]['compress'] = false;
-  //\$cfg['Servers'][\$i]['compress'] = false;
-  \$cfg['Servers'][\$i]['AllowNoPassword'] = false;
-  
-  /**
-  * phpMyAdmin configuration storage settings.
-  */
 
-  /* User used to manipulate with storage */
-  // \$cfg['Servers'][\$i]['controlhost'] = '';
-  // \$cfg['Servers'][\$i]['controlport'] = '';
-  // \$cfg['Servers'][\$i]['controluser'] = 'pma';
-  // \$cfg['Servers'][\$i]['controlpass'] = 'pmapass';
-  /* Storage database and tables */
-  $cfg['Servers'][$i]['pmadb'] = 'phpmyadmin';
-  $cfg['Servers'][$i]['bookmarktable'] = 'pma__bookmark';
-  $cfg['Servers'][$i]['relation'] = 'pma__relation';
-  $cfg['Servers'][$i]['table_info'] = 'pma__table_info';
-  $cfg['Servers'][$i]['table_coords'] = 'pma__table_coords';
-  $cfg['Servers'][$i]['pdf_pages'] = 'pma__pdf_pages';
-  $cfg['Servers'][$i]['column_info'] = 'pma__column_info';
-  $cfg['Servers'][$i]['history'] = 'pma__history';
-  $cfg['Servers'][$i]['table_uiprefs'] = 'pma__table_uiprefs';
-  $cfg['Servers'][$i]['tracking'] = 'pma__tracking';
-  $cfg['Servers'][$i]['userconfig'] = 'pma__userconfig';
-  $cfg['Servers'][$i]['recent'] = 'pma__recent';
-  $cfg['Servers'][$i]['favorite'] = 'pma__favorite';
-  $cfg['Servers'][$i]['users'] = 'pma__users';
-  $cfg['Servers'][$i]['usergroups'] = 'pma__usergroups';
-  $cfg['Servers'][$i]['navigationhiding'] = 'pma__navigationhiding';
-  $cfg['Servers'][$i]['savedsearches'] = 'pma__savedsearches';
-  $cfg['Servers'][$i]['central_columns'] = 'pma__central_columns';
-  $cfg['Servers'][$i]['designer_settings'] = 'pma__designer_settings';
-  $cfg['Servers'][$i]['export_templates'] = 'pma__export_templates';
- 
-  /**
-  * End of servers configuration
-  */
+  \$cfg['Servers'][$i]['auth_type'] = 'cookie';
+  \$cfg['Servers'][$i]['host'] = 'localhost';
+  \$cfg['Servers'][$i]['compress'] = false;
+  \$cfg['Servers'][$i]['AllowNoPassword'] = false;
 
-  /**
-  * Directories for saving/loading files from server
-  */
-  $cfg['UploadDir'] = '/home/deploy/phpm/upload';
-  $cfg['SaveDir'] = '/home/deploy/phpm/upload';
+  \$cfg['UploadDir'] = '/home/deploy/phpm/upload';
+  \$cfg['SaveDir'] = '/home/deploy/phpm/upload';
 
-  /**
-  * Whether to display icons or text or both icons and text in table row
-  * action segment. Value can be either of 'icons', 'text' or 'both'.
-  * default = 'both'
-  */
-  // $cfg['RowActionType'] = 'icons';
+  EOF"
 
-  /**
-  * Defines whether a user should be displayed a "show all (records)"
-  * button in browse mode or not.
-  * default = false
-  */
-  // $cfg['ShowAll'] = true;
+  # Configure Apache
+  sudo sed -i 's/^DocumentRoot \/var\/www\/html/# DocumentRoot \/var\/www\/html/g' /etc/apache2/sites-available/000-default.conf
+  sudo sed -i '$a DocumentRoot \/usr\/share\/phpmyadmin' /etc/apache2/sites-available/000-default.conf
 
-  /**
-  * Number of rows displayed when browsing a result set. If the result
-  * set contains more rows, "Previous" and "Next".
-  * Possible values: 25, 50, 100, 250, 500
-  * default = 25
-  */
-  // $cfg['MaxRows'] = 50;
- 
-  /**
-  * Disallow editing of binary fields
-  * valid values are:
-  *   false    allow editing
-  *   'blob'   allow editing except for BLOB fields
-  *   'noblob' disallow editing except for BLOB fields
-  *   'all'    disallow editing
-  * default = 'blob'
-  */
-  // $cfg['ProtectBinary'] = false;
+  # Install PHP extensions
+  sudo apt-get install php-mysqli -y
+  sudo apt-get install php-mbstring -y
 
-  /**
-  * Default language to use, if not browser-defined or user-defined
-  * (you find all languages in the locale folder)
-  * uncomment the desired line:
-  * default = 'en'
-  */
-  // $cfg['DefaultLang'] = 'en';
-  // $cfg['DefaultLang'] = 'de';
+  # Change Apache port to 8080
+  sudo sed -i "s/Listen 80/Listen 8080/" /etc/apache2/ports.conf
+  sudo sed -i "s/<VirtualHost \*:80>/<VirtualHost \*:8080>/" /etc/apache2/sites-available/000-default.conf
 
-  /**
-  * How many columns should be used for table display of a database?
-  * (a value larger than 1 results in some information being hidden)
-  * default = 1
-  */
-  // $cfg['PropertiesNumColumns'] = 2;
+  # Restart Apache
+  sudo systemctl restart apache2
+  sudo systemctl status apache2
 
-  /** 
-  * Set to true if you want DB-based query history.If false, this utilizes
-  * JS-routines to display query history (lost by window close)
-  *
-  * This requires configuration storage enabled, see above.
-  * default = false
-  */
-  // $cfg['QueryHistoryDB'] = true;
- 
-  /**
-  * When using DB-based query history, how many entries should be kept?
-  * default = 25
-  */
-  // $cfg['QueryHistoryMax'] = 100;
+  # Create upload and download directories
+  sudo -u deploy mkdir /home/deploy/phpm/upload
+  sudo -u deploy mkdir /home/deploy/phpm/download
+  sudo chmod -R 777 /home/deploy/phpm
 
-  /**
-  * Whether or not to query the user before sending the error report to
-  * the phpMyAdmin team when a JavaScript error occurs
-  *
-  * Available options
-  * ('ask' | 'always' | 'never')
-  * default = 'ask'
-  */
-  // $cfg['SendErrorReports'] = 'always';
- 
-  /**
-  * 'URLQueryEncryption' defines whether phpMyAdmin will encrypt sensitive data from the URL query string.
-  * 'URLQueryEncryptionSecretKey' is a 32 bytes long secret key used to encrypt/decrypt the URL query string.
-  */
-  // $cfg['URLQueryEncryption'] = true;
-  // $cfg['URLQueryEncryptionSecretKey'] = '';
- 
-  /**
-  * You can find more configuration options in the documentation
-  * in the doc/ folder or at <https://docs.phpmyadmin.net/>.
-  */
-EOF
-
-
-
-#cofgi do apache pt2
-sudo sed -i 's/^DocumentRoot \/var\/www\/html/# DocumentRoot \/var\/www\/html/g' /etc/apache2/sites-available/000-default.conf
-sudo sed -i '$a DocumentRoot \/usr\/share\/phpmyadmin' /etc/apache2/sites-available/000-default.conf
-
-#extenção que falto no php
-sudo apt-get install php-mysqli -y
-sudo apt-get install php-mbstring -y
-
-
-# alterando a porta do Apache para 8080 pra para de da cobflito
-sudo sed -i "s/Listen 80/Listen 8080/" /etc/apache2/ports.conf
-sudo sed -i "s/<VirtualHost \*:80>/<VirtualHost \*:8080>/" /etc/apache2/sites-available/000-default.conf
-
-# reinicia apache
-sudo systemctl restart apache2
-sudo systemctl status apache2
-
-sleep 1
-  print_banner
-  printf "${WHITE} ✅ Finalizando.${GRAY_LIGHT}"
-  printf "\n\n"
-  
-sleep 1
-  print_banner
-  printf "${WHITE} ✅ Finalizando..${GRAY_LIGHT}"
-  printf "\n\n"
-  
-sleep 1
-  print_banner
-  printf "${WHITE} ✅ Finalizando...${GRAY_LIGHT}"
-  printf "\n\n"
-  sleep 1
-  
-  #pasta
-sudo -u deploy mkdir /home/deploy/phpm/upload
-sudo -u deploy mkdir /home/deploy/phpm/download
-sudo chmod -R 777 /home/deploy/phpm
-  
-sleep 3
+  # Print success message
+  sleep 3
   print_banner
   printf "${WHITE} ✅ Instalação do PHPMYADMIN realizada com sucesso ...${GRAY_LIGHT}"
   printf "\n\n"
-sleep 2
-exit
+
+  sleep 2
+  exit
 }
+
 
 
 
