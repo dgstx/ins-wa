@@ -467,9 +467,9 @@ phpmyadmin_install() {
   echo "phpmyadmin phpmyadmin/reconfigure-webserver multiselect apache2" | debconf-set-selections
   echo "phpmyadmin phpmyadmin/dbconfig-install boolean true" | debconf-set-selections
   echo "phpmyadmin phpmyadmin/mysql/admin-user string root" | debconf-set-selections
-  echo "phpmyadmin phpmyadmin/mysql/admin-pass password ${senha_root_mysql}" | debconf-set-selections
-  echo "phpmyadmin phpmyadmin/mysql/app-pass password ${senha_root_mysql}" | debconf-set-selections
-  echo "phpmyadmin phpmyadmin/app-password-confirm password ${senha_root_mysql}" | debconf-set-selections
+  echo "phpmyadmin phpmyadmin/mysql/admin-pass password ${mysql_root_password}" | debconf-set-selections
+  echo "phpmyadmin phpmyadmin/mysql/app-pass password ${mysql_root_password}" | debconf-set-selections
+  echo "phpmyadmin phpmyadmin/app-password-confirm password ${mysql_root_password}" | debconf-set-selections
 
   # Alterando a porta do Apache para 8080
   sed -i "s/Listen 80/Listen 8080/" /etc/apache2/ports.conf
