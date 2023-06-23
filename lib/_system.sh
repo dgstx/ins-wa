@@ -451,7 +451,8 @@ if [ -d "/usr/share/phpmyadmin" ]; then
 	printf "${RED} ❌ O phpmyadmin já está instalado${GRAY_LIGHT}"
 	printf "\n\n"
 	sleep 2
-	exit
+	#voltar inquiry_option
+    return  
   fi
 print_banner
 printf "${WHITE} 💻 Instalando o phpmyadmin...${GRAY_LIGHT}"
