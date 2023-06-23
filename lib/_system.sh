@@ -577,18 +577,19 @@ pm2_list() {
 }
 
 #######################################
-# entrar no console do pm2  
+# entrar no monitor do pm2  
 # Arguments:
 #   None
 #######################################
-pm2_console() {
+pm2_monitor() {
   print_banner
-  printf "${WHITE} 🌐 Entrando no console do PM2...${GRAY_LIGHT}"
+  printf "${WHITE} 🌐 Monitorando processos PM2...${GRAY_LIGHT}"
   printf "\n"
-  printf "${WHITE} ✅ Entrada no console do PM2 realizada com sucesso ...${GRAY_LIGHT}"
+  printf "${WHITE} ✅ Monitoramento de processos PM2 realizado com sucesso ...${GRAY_LIGHT}"
   printf "\n\n"
   sudo -u deploy pm2 monit
+  #parar até usuario pressionar enter
+  read -p "Pressione [Enter] para continuar..."
+  sleep 1
+  exit
 }
-
-
-
