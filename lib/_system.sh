@@ -450,45 +450,48 @@ phpmyadmin_install() {
   print_banner
   printf "${WHITE} 🌐 Instalando PHPMYADMIN em ${sub_phpmy}.wasap.com.br...${GRAY_LIGHT}"
   printf "\n\n"
-
-  # Limpa nginx
+ #limpa nginx
   sudo rm -f /etc/nginx/sites-available/${sub_phpmy}
   sudo rm -f /etc/nginx/sites-enabled/${sub_phpmy}
   sudo rm -rf /var/www/html/${sub_phpmy}
 
-  # Instalação do Docker (caso ainda não esteja instalado)
-  sudo apt-get install -y docker.io
+  # Instalar pacotes gettext e php7.4-gettext
+  sudo apt install -y gettext php7.4-gettext
 
-  # Executa o container do phpMyAdmin com limite de RAM de 100MB
-  sudo docker run -d --name phpmyadmin -p 8080:80 -e PMA_HOST=127.0.0.1 -e PMA_PORT=3306 -e PMA_USER=root -e PMA_PASSWORD=${mysql_root_password} phpmyadmin/phpmyadmin
+  # Lógica para instalação do phpMyAdmin no servidor
+  sudo apt install -y phpmyadmin php-mbstring
 
-  # Aguarda alguns segundos para o container iniciar
-  sleep 5
+  #limpa nginx
+  sudo rm -f /etc/nginx/sites-available/${sub_phpmy}
+  sudo rm -f /etc/nginx/sites-enabled/${sub_phpmy}
 
-  # Verifica o status do container
-  sudo docker ps -a | grep phpmyadmin
-
-  # Configuração do arquivo de host do Nginx para o subdomínio do phpMyAdmin
+  # Criar link simbólico para o diretório do phpMyAdmin no diretório do Nginx
+  sudo ln -s /usr/share/phpmyadmin /var/www/html/${sub_phpmy}
+  # Configurar o arquivo de host do Nginx para o subdomínio do phpMyAdmin
   sudo tee /etc/nginx/sites-available/${sub_phpmy} << EOF
-  server {
+    server {
     listen 80;
     server_name ${sub_phpmy}.wasap.com.br;
 
     location / {
-      proxy_pass http://127.0.0.1:8080;
+        root /var/www/html/${sub_phpmy};
+        index index.php index.html index.htm;
     }
-  }
-  EOF
+
+    location ~ \.php$ {
+        include snippets/fastcgi-php.conf;
+        fastcgi_pass unix:/run/php/php7.4-fpm.sock;
+        fastcgi_param SCRIPT_FILENAME \$document_root\$fastcgi_script_name;
+        include fastcgi_params;
+    }
+}
+EOF
 
   # Ativar o arquivo de host do phpMyAdmin no Nginx
   sudo ln -s /etc/nginx/sites-available/${sub_phpmy} /etc/nginx/sites-enabled/
 
   # Reiniciar o serviço do Nginx para aplicar as alterações
   sudo systemctl restart nginx
-
-  # Instalação do Certbot e geração do certificado SSL
-  sudo apt-get install -y certbot python3-certbot-nginx
-  sudo certbot --nginx -d ${sub_phpmy}.wasap.com.br
 
   sleep 2
   print_banner
