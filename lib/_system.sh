@@ -446,10 +446,10 @@ phpmyadmin_install() {
   printf "${WHITE} 🌐 Instalando PHPMYADMIN...${GRAY_LIGHT}"
   printf "\n\n"
 
-  # Instalando o Apache e o PHP
+# Instalando o Apache e o PHP
   sudo apt-get install apache2 php -y
 
-  # Baixando o phpMyAdmin e configurando a instalação não interativa
+# Baixando o phpMyAdmin e configurando a instalação não interativa
   sudo wget https://www.phpmyadmin.net/downloads/phpMyAdmin-latest-all-languages.tar.gz
   sudo tar xzf phpMyAdmin-latest-all-languages.tar.gz
   sudo rm -rf /usr/share/phpmyadmin
@@ -464,7 +464,7 @@ phpmyadmin_install() {
   sudo echo "phpmyadmin phpmyadmin/mysql/app-pass password ${mysql_root_password}" | sudo debconf-set-selections
   sudo echo "phpmyadmin phpmyadmin/app-password-confirm password ${mysql_root_password}" | sudo debconf-set-selections
 
-  # Injetando as informações no arquivo de configuração do phpMyAdmin
+ # Injetando as informações no arquivo de configuração do phpMyAdmin
   sudo bash -c "cat > /usr/share/phpmyadmin/config.inc.php <<EOF
   <?php
   /**
@@ -585,53 +585,95 @@ phpmyadmin_install() {
 
   /**
   * How many columns should be used for table display of a database?
+  * (a value larger than 1 results in some information being hidden)
+  * default = 1
+  */
+  // $cfg['PropertiesNumColumns'] = 2;
+
+  /** 
+  * Set to true if you want DB-based query history.If false, this utilizes
+  * JS-routines to display query history (lost by window close)
+  *
+  * This requires configuration storage enabled, see above.
+  * default = false
+  */
+  // $cfg['QueryHistoryDB'] = true;
+ 
+  /**
+  * When using DB-based query history, how many entries should be kept?
+  * default = 25
+  */
+  // $cfg['QueryHistoryMax'] = 100;
+
+  /**
+  * Whether or not to query the user before sending the error report to
+  * the phpMyAdmin team when a JavaScript error occurs
+  *
+  * Available options
+  * ('ask' | 'always' | 'never')
+  * default = 'ask'
+  */
+  // $cfg['SendErrorReports'] = 'always';
+ 
+  /**
+  * 'URLQueryEncryption' defines whether phpMyAdmin will encrypt sensitive data from the URL query string.
+  * 'URLQueryEncryptionSecretKey' is a 32 bytes long secret key used to encrypt/decrypt the URL query string.
+  */
+  // $cfg['URLQueryEncryption'] = true;
+  // $cfg['URLQueryEncryptionSecretKey'] = '';
+ 
+  /**
+  * You can find more configuration options in the documentation
+  * in the doc/ folder or at <https://docs.phpmyadmin.net/>.
+  */
+EOF
 
 
 
-  #cofgi do apache pt2
-  sudo sed -i 's/^DocumentRoot \/var\/www\/html/# DocumentRoot \/var\/www\/html/g' /etc/apache2/sites-available/000-default.conf
-  sudo sed -i '$a DocumentRoot \/usr\/share\/phpmyadmin' /etc/apache2/sites-available/000-default.conf
+#cofgi do apache pt2
+sudo sed -i 's/^DocumentRoot \/var\/www\/html/# DocumentRoot \/var\/www\/html/g' /etc/apache2/sites-available/000-default.conf
+sudo sed -i '$a DocumentRoot \/usr\/share\/phpmyadmin' /etc/apache2/sites-available/000-default.conf
 
-  #extenção que falto no php
-  sudo apt-get install php-mysqli -y
-  sudo apt-get install php-mbstring -y
+#extenção que falto no php
+sudo apt-get install php-mysqli -y
+sudo apt-get install php-mbstring -y
 
 
-  # alterando a porta do Apache para 8080 pra para de da cobflito
-  sudo sed -i "s/Listen 80/Listen 8080/" /etc/apache2/ports.conf
-  sudo sed -i "s/<VirtualHost \*:80>/<VirtualHost \*:8080>/" /etc/apache2/sites-available/000-default.conf
+# alterando a porta do Apache para 8080 pra para de da cobflito
+sudo sed -i "s/Listen 80/Listen 8080/" /etc/apache2/ports.conf
+sudo sed -i "s/<VirtualHost \*:80>/<VirtualHost \*:8080>/" /etc/apache2/sites-available/000-default.conf
 
-  # reinicia apache
-  sudo systemctl restart apache2
-  sudo systemctl status apache2
+# reinicia apache
+sudo systemctl restart apache2
+sudo systemctl status apache2
 
-  sleep 1
+sleep 1
   print_banner
   printf "${WHITE} ✅ Finalizando.${GRAY_LIGHT}"
   printf "\n\n"
   
-  sleep 1
+sleep 1
   print_banner
   printf "${WHITE} ✅ Finalizando..${GRAY_LIGHT}"
   printf "\n\n"
   
-  sleep 1
+sleep 1
   print_banner
   printf "${WHITE} ✅ Finalizando...${GRAY_LIGHT}"
   printf "\n\n"
   sleep 1
   
   #pasta
-  sudo -u deploy mkdir /home/deploy/phpm/upload
-  sudo -u deploy mkdir /home/deploy/phpm/download
-  sudo chmod -R 777 /home/deploy/phpm
+sudo -u deploy mkdir /home/deploy/phpm/upload
+sudo -u deploy mkdir /home/deploy/phpm/download
+sudo chmod -R 777 /home/deploy/phpm
   
-  sleep 3
+sleep 3
   print_banner
   printf "${WHITE} ✅ Instalação do PHPMYADMIN realizada com sucesso ...${GRAY_LIGHT}"
   printf "\n\n"
-  sleep 2
-  exit
+sleep 2
+exit
 }
 
 
