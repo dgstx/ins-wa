@@ -446,11 +446,6 @@ phpmyadmin_install() {
   printf "${WHITE} 🌐 Instalando PHPMYADMIN...${GRAY_LIGHT}"
   printf "\n\n"
 
-  #pasta
-  sudo -u deploy mkdir /home/deploy/phpm/upload
-  sudo -u deploy mkdir /home/deploy/phpm/download
-  sudo chmod -R 777 /home/deploy/phpm
-
   # Instalando o Apache e o PHP
   sudo apt-get install apache2 php -y
 
@@ -668,8 +663,11 @@ EOF"
   printf "\n\n"
   sleep 1
   
+  #pasta
+  sudo -u deploy mkdir /home/deploy/phpm/upload
+  sudo -u deploy mkdir /home/deploy/phpm/download
+  sudo chmod -R 777 /home/deploy/phpm
   
-
   sleep 3
   print_banner
   printf "${WHITE} ✅ Instalação do PHPMYADMIN realizada com sucesso ...${GRAY_LIGHT}"
