@@ -456,7 +456,7 @@ phpmyadmin_install() {
   # Baixando o phpMyAdmin e configurando a instalação não interativa
   sudo wget https://www.phpmyadmin.net/downloads/phpMyAdmin-latest-all-languages.tar.gz
   sudo tar xzf phpMyAdmin-latest-all-languages.tar.gz
-  sudo rm -rf /usr/share/phpmyadmin/*
+  sudo rm -rf /usr/share/phpmyadmin
   sudo mv phpMyAdmin-*-all-languages /usr/share/phpmyadmin
   sudo mkdir -p /usr/share/phpmyadmin/tmp
   sudo chown -R www-data:www-data /usr/share/phpmyadmin
@@ -482,6 +482,8 @@ phpmyadmin_install() {
   print_banner
   printf "${WHITE} ✅ Instalação do PHPMYADMIN realizada com sucesso ...${GRAY_LIGHT}"
   printf "\n\n"
-  sleep 2
+  sleep 3
+  exit
 }
+
 
