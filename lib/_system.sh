@@ -445,21 +445,18 @@ sleep 2
 # install phpmyadmin
 # Arguments:
 #   None
-#######################################
 phpmyadmin_install() {
   print_banner
   printf "${WHITE} 🌐 Instalando PHPMYADMIN...${GRAY_LIGHT}"
   printf "\n\n"
 
-  # Instalando o Apache2
-  sudo apt-get install apache2 -y
-
-  # Instalando o PHP para o phpMyAdmin
-  sudo apt-get install php -y
+  # Instalando o Apache e o PHP
+  sudo apt-get install apache2 php -y
 
   # Baixando o phpMyAdmin e configurando a instalação não interativa
   sudo wget https://www.phpmyadmin.net/downloads/phpMyAdmin-latest-all-languages.tar.gz
   sudo tar xzf phpMyAdmin-latest-all-languages.tar.gz
+  sudo rm -rf /usr/share/phpmyadmin/*
   sudo mv phpMyAdmin-*-all-languages /usr/share/phpmyadmin
   sudo mkdir -p /usr/share/phpmyadmin/tmp
   sudo chown -R www-data:www-data /usr/share/phpmyadmin
@@ -487,3 +484,4 @@ phpmyadmin_install() {
   printf "\n\n"
   sleep 2
 }
+
