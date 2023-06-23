@@ -441,7 +441,7 @@ sleep 2
 }
 
 #######################################
-# phpmyadmin install
+# instalar phpmyadmin no servidor
 # Arguments:
 #   None
 #######################################
@@ -450,56 +450,93 @@ phpmyadmin_install() {
   printf "${WHITE} 🌐 Instalando PHPMYADMIN...${GRAY_LIGHT}"
   printf "\n\n"
 
-  # Install Apache and PHP
+  # Instalando o Apache e o PHP
   sudo apt-get install apache2 php -y
 
-  # Download phpMyAdmin and configure non-interactive installation
+  # Baixando o phpMyAdmin e configurando a instalação não interativa
   sudo wget https://www.phpmyadmin.net/downloads/phpMyAdmin-latest-all-languages.tar.gz
   sudo tar xzf phpMyAdmin-latest-all-languages.tar.gz
   sudo rm -rf /usr/share/phpmyadmin
   sudo mv phpMyAdmin-*-all-languages /usr/share/phpmyadmin
   sudo mkdir -p /usr/share/phpmyadmin/tmp
   sudo chown -R www-data:www-data /usr/share/phpmyadmin
-  sudo chmod 777 /usr/share/phpmyadmin/tmp
+  sudo chmod 755 /usr/share/phpmyadmin/tmp
+  sudo echo "phpmyadmin phpmyadmin/reconfigure-webserver multiselect apache2" | sudo debconf-set-selections
+  sudo echo "phpmyadmin phpmyadmin/dbconfig-install boolean true" | sudo debconf-set-selections
+  sudo echo "phpmyadmin phpmyadmin/mysql/admin-user string root" | sudo debconf-set-selections
+  sudo echo "phpmyadmin phpmyadmin/mysql/admin-pass password ${mysql_root_password}" | sudo debconf-set-selections
+  sudo echo "phpmyadmin phpmyadmin/mysql/app-pass password ${mysql_root_password}" | sudo debconf-set-selections
+  sudo echo "phpmyadmin phpmyadmin/app-password-confirm password ${mysql_root_password}" | sudo debconf-set-selections
 
-  # Inject configuration into phpMyAdmin config file
-  sudo bash -c "cat <<EOF > /usr/share/phpmyadmin/config.inc.php
-  \$cfg['blowfish_secret'] = '7627cb9027e713e301e83a8f13057055';
+  # Configuração do arquivo config.inc.php
+  sudo bash -c "cat > /usr/share/phpmyadmin/config.inc.php <<EOF
+<?php
+\$cfg['blowfish_secret'] = '7627cb9027e713e301e83a8f13057055';
+\$cfg['Servers'][\$i]['auth_type'] = 'cookie';
+\$cfg['Servers'][\$i]['host'] = 'localhost';
+\$cfg['Servers'][\$i]['compress'] = false;
+\$cfg['Servers'][\$i]['AllowNoPassword'] = false;
+\$cfg['Servers'][\$i]['pmadb'] = 'phpmyadmin';
+\$cfg['Servers'][\$i]['bookmarktable'] = 'pma__bookmark';
+\$cfg['Servers'][\$i]['relation'] = 'pma__relation';
+\$cfg['Servers'][\$i]['table_info'] = 'pma__table_info';
+\$cfg['Servers'][\$i]['table_coords'] = 'pma__table_coords';
+\$cfg['Servers'][\$i]['pdf_pages'] = 'pma__pdf_pages';
+\$cfg['Servers'][\$i]['column_info'] = 'pma__column_info';
+\$cfg['Servers'][\$i]['history'] = 'pma__history';
+\$cfg['Servers'][\$i]['table_uiprefs'] = 'pma__table_uiprefs';
+\$cfg['Servers'][\$i]['tracking'] = 'pma__tracking';
+\$cfg['Servers'][\$i]['userconfig'] = 'pma__userconfig';
+\$cfg['Servers'][\$i]['recent'] = 'pma__recent';
+\$cfg['Servers'][\$i]['favorite'] = 'pma__favorite';
+\$cfg['Servers'][\$i]['users'] = 'pma__users';
+\$cfg['Servers'][\$i]['usergroups'] = 'pma__usergroups';
+\$cfg['Servers'][\$i]['navigationhiding'] = 'pma__navigationhiding';
+\$cfg['Servers'][\$i]['savedsearches'] = 'pma__savedsearches';
+\$cfg['Servers'][\$i]['central_columns'] = 'pma__central_columns';
+\$cfg['Servers'][\$i]['designer_settings'] = 'pma__designer_settings';
+\$cfg['Servers'][\$i]['export_templates'] = 'pma__export_templates';
+\$cfg['UploadDir'] = '/home/deploy/phpm/upload';
+\$cfg['SaveDir'] = '/home/deploy/phpm/upload';
+EOF"
 
-  \$i = 0;
-
-  \$cfg['Servers'][$i]['auth_type'] = 'cookie';
-  \$cfg['Servers'][$i]['host'] = 'localhost';
-  \$cfg['Servers'][$i]['compress'] = false;
-  \$cfg['Servers'][$i]['AllowNoPassword'] = false;
-
-  \$cfg['UploadDir'] = '/home/deploy/phpm/upload';
-  \$cfg['SaveDir'] = '/home/deploy/phpm/upload';
-
-  EOF"
-
-  # Configure Apache
+  # Configuração do Apache
   sudo sed -i 's/^DocumentRoot \/var\/www\/html/# DocumentRoot \/var\/www\/html/g' /etc/apache2/sites-available/000-default.conf
   sudo sed -i '$a DocumentRoot \/usr\/share\/phpmyadmin' /etc/apache2/sites-available/000-default.conf
 
-  # Install PHP extensions
-  sudo apt-get install php-mysqli -y
-  sudo apt-get install php-mbstring -y
+  # Instalação de extensões PHP
+  sudo apt-get install php-mysqli php-mbstring -y
 
-  # Change Apache port to 8080
+  # Alterando a porta do Apache para 8080 para evitar conflitos
   sudo sed -i "s/Listen 80/Listen 8080/" /etc/apache2/ports.conf
   sudo sed -i "s/<VirtualHost \*:80>/<VirtualHost \*:8080>/" /etc/apache2/sites-available/000-default.conf
 
-  # Restart Apache
+  # Reinicia o Apache
   sudo systemctl restart apache2
   sudo systemctl status apache2
 
-  # Create upload and download directories
-  sudo -u deploy mkdir /home/deploy/phpm/upload
-  sudo -u deploy mkdir /home/deploy/phpm/download
+  sleep 1
+  print_banner
+  printf "${WHITE} ✅ Finalizando.${GRAY_LIGHT}"
+  printf "\n\n"
+
+  sleep 1
+  print_banner
+  printf "${WHITE} ✅ Finalizando..${GRAY_LIGHT}"
+  printf "\n\n"
+
+  sleep 1
+  print_banner
+  printf "${WHITE} ✅ Finalizando...${GRAY_LIGHT}"
+  printf "\n\n"
+  sleep 1
+
+  # Criação de pastas
+  sudo -u deploy mkdir -p /home/deploy/phpm/upload
+  sudo -u deploy mkdir -p /home/deploy/phpm/download
+  sudo chown -R deploy:deploy /home/deploy/phpm
   sudo chmod -R 777 /home/deploy/phpm
 
-  # Print success message
   sleep 3
   print_banner
   printf "${WHITE} ✅ Instalação do PHPMYADMIN realizada com sucesso ...${GRAY_LIGHT}"
