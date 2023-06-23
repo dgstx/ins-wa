@@ -451,68 +451,50 @@ phpmyadmin_install() {
   printf "${WHITE} 🌐 Instalando PHPMYADMIN em ${sub_phpmy}.wasap.com.br...${GRAY_LIGHT}"
   printf "\n\n"
 
-  # Limpar registros
-  sudo rm -f /etc/lthttpd/sites-available/${sub_phpmy}
-  sudo rm -f /etc/lthttpd/sites-enabled/${sub_phpmy}
+  # Limpa nginx
+  sudo rm -f /etc/nginx/sites-available/${sub_phpmy}
+  sudo rm -f /etc/nginx/sites-enabled/${sub_phpmy}
   sudo rm -rf /var/www/html/${sub_phpmy}
 
-  # Instalar pacotes gettext e php7.4-gettext
-  sudo apt install -y gettext php7.4-gettext
+  # Instalação do Docker (caso ainda não esteja instalado)
+  sudo apt-get update
+  sudo apt-get install -y docker.io
 
-  # Lógica para instalação do phpMyAdmin no servidor
-  sudo apt install -y phpmyadmin php-mbstring
+  # Executa o container do phpMyAdmin com limite de RAM de 100MB
+  sudo docker run -d --name phpmyadmin -p 8080:80 -e PMA_HOST=127.0.0.1 -e PMA_PORT=3306 -e PMA_USER=root -e PMA_PASSWORD=${mysql_root_password} phpmyadmin/phpmyadmin
 
-  # Limpar lthttpd
-  sudo rm -f /etc/lthttpd/sites-available/${sub_phpmy}
-  sudo rm -f /etc/lthttpd/sites-enabled/${sub_phpmy}
+  # Aguarda alguns segundos para o container iniciar
+  sleep 5
 
-  # Criar link simbólico para o diretório do phpMyAdmin no diretório do lthttpd
-  sudo mkdir -p /var/www/html/
-  sudo ln -s /usr/share/phpmyadmin /var/www/html/${sub_phpmy}
+  # Verifica o status do container
+  sudo docker ps -a | grep phpmyadmin
 
-  # Configurar o arquivo de host do lthttpd para o subdomínio do phpMyAdmin
-  sudo tee /etc/lthttpd/sites-available/${sub_phpmy} << EOF
-server.modules += ( "mod_fastcgi" )
+  # Configuração do arquivo de host do Nginx para o subdomínio do phpMyAdmin
+  sudo tee /etc/nginx/sites-available/${sub_phpmy} << EOF
+  server {
+    listen 80;
+    server_name ${sub_phpmy}.wasap.com.br;
 
-fastcgi.server = (
-    "/index.php" => (
-        "php" => (
-            "socket" => "/var/run/php/php7.4-fpm.sock",
-            "bin-path" => "/usr/bin/php-cgi7.4",
-            "docroot" => "/var/www/html/${sub_phpmy}",
-            "index" => "index.php"
-        )
-    )
-)
+    location / {
+      proxy_pass http://127.0.0.1:8080;
+    }
+  }
+  EOF
 
-server.document-root = "/var/www/html/${sub_phpmy}"
+  # Ativar o arquivo de host do phpMyAdmin no Nginx
+  sudo ln -s /etc/nginx/sites-available/${sub_phpmy} /etc/nginx/sites-enabled/
 
-server.port = 8888
-server.bind = "0.0.0.0"
+  # Reiniciar o serviço do Nginx para aplicar as alterações
+  sudo systemctl restart nginx
 
-mimetype.assign = (
-    ".html" => "text/html",
-    ".htm" => "text/html",
-    ".txt" => "text/plain",
-    ".jpg" => "image/jpeg",
-    ".jpeg" => "image/jpeg",
-    ".gif" => "image/gif",
-    ".png" => "image/png"
-)
-EOF
-
-  # Ativar o arquivo de host do phpMyAdmin no lthttpd
-  sudo ln -s /etc/lthttpd/sites-available/${sub_phpmy} /etc/lthttpd/sites-enabled/
-
-  # Reiniciar o serviço do lthttpd para aplicar as alterações
-  sudo systemctl restart lthttpd
+  # Instalação do Certbot e geração do certificado SSL
+  sudo apt-get install -y certbot python3-certbot-nginx
+  sudo certbot --nginx -d ${sub_phpmy}.wasap.com.br
 
   sleep 2
   print_banner
   printf "${WHITE} ✅ Instalação do PHPMYADMIN realizada com sucesso ...${GRAY_LIGHT}"
   printf "\n\n"
   sleep 2
-}
-
 }
 
