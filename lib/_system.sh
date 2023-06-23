@@ -457,7 +457,6 @@ phpmyadmin_install() {
   sudo rm -rf /var/www/html/${sub_phpmy}
 
   # Instalação do Docker (caso ainda não esteja instalado)
-  sudo apt-get update
   sudo apt-get install -y docker.io
 
   # Executa o container do phpMyAdmin com limite de RAM de 100MB
