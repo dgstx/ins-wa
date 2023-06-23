@@ -452,31 +452,31 @@ phpmyadmin_install() {
   printf "\n\n"
 
   # Instalando o PHP para o phpMyAdmin
-  apt-get install php -y
+  sudo apt-get install php -y
 
   # Baixando o phpMyAdmin e configurando a instalação não interativa
-  wget https://www.phpmyadmin.net/downloads/phpMyAdmin-latest-all-languages.tar.gz
-  tar xzf phpMyAdmin-latest-all-languages.tar.gz
-  mv phpMyAdmin-*-all-languages /usr/share/phpmyadmin
-  mkdir /usr/share/phpmyadmin/tmp
-  chown -R www-data:www-data /usr/share/phpmyadmin
-  chmod 777 /usr/share/phpmyadmin/tmp
-  cp /usr/share/phpmyadmin/config.sample.inc.php /usr/share/phpmyadmin/config.inc.php
-  sed -i "s/localhost/phpmyadmin/g" /usr/share/phpmyadmin/config.inc.php
-  sed -i "s/\(\$cfg\['blowfish_secret'\] = \).*/\1'f98h3q4hg4hgj4';/" /usr/share/phpmyadmin/config.inc.php
-  echo "phpmyadmin phpmyadmin/reconfigure-webserver multiselect apache2" | debconf-set-selections
-  echo "phpmyadmin phpmyadmin/dbconfig-install boolean true" | debconf-set-selections
-  echo "phpmyadmin phpmyadmin/mysql/admin-user string root" | debconf-set-selections
-  echo "phpmyadmin phpmyadmin/mysql/admin-pass password ${mysql_root_password}" | debconf-set-selections
-  echo "phpmyadmin phpmyadmin/mysql/app-pass password ${mysql_root_password}" | debconf-set-selections
-  echo "phpmyadmin phpmyadmin/app-password-confirm password ${mysql_root_password}" | debconf-set-selections
+  sudo wget https://www.phpmyadmin.net/downloads/phpMyAdmin-latest-all-languages.tar.gz
+  sudo tar xzf phpMyAdmin-latest-all-languages.tar.gz
+  sudo mv phpMyAdmin-*-all-languages /usr/share/phpmyadmin
+  sudo mkdir /usr/share/phpmyadmin/tmp
+  sudo chown -R www-data:www-data /usr/share/phpmyadmin
+  sudo chmod 777 /usr/share/phpmyadmin/tmp
+  sudo cp /usr/share/phpmyadmin/config.sample.inc.php /usr/share/phpmyadmin/config.inc.php
+  sudo sed -i "s/localhost/phpmyadmin/g" /usr/share/phpmyadmin/config.inc.php
+  sudo sed -i "s/\(\$cfg\['blowfish_secret'\] = \).*/\1'f98h3q4hg4hgj4';/" /usr/share/phpmyadmin/config.inc.php
+  sudo echo "phpmyadmin phpmyadmin/reconfigure-webserver multiselect apache2" | sudo debconf-set-selections
+  sudo echo "phpmyadmin phpmyadmin/dbconfig-install boolean true" | sudo debconf-set-selections
+  sudo echo "phpmyadmin phpmyadmin/mysql/admin-user string root" | sudo debconf-set-selections
+  sudo echo "phpmyadmin phpmyadmin/mysql/admin-pass password ${mysql_root_password}" | sudo debconf-set-selections
+  sudo echo "phpmyadmin phpmyadmin/mysql/app-pass password ${mysql_root_password}" | sudo debconf-set-selections
+  sudo echo "phpmyadmin phpmyadmin/app-password-confirm password ${mysql_root_password}" | sudo debconf-set-selections
 
   # Alterando a porta do Apache para 8080
-  sed -i "s/Listen 80/Listen 8080/" /etc/apache2/ports.conf
-  sed -i "s/<VirtualHost \*:80>/<VirtualHost \*:8080>/" /etc/apache2/sites-available/000-default.conf
+  sudo sed -i "s/Listen 80/Listen 8080/" /etc/apache2/ports.conf
+  sudo sed -i "s/<VirtualHost \*:80>/<VirtualHost \*:8080>/" /etc/apache2/sites-available/000-default.conf
 
   # Reiniciando o Apache
-  service apache2 restart
+  sudo service apache2 restart
 
   sleep 2
   print_banner
