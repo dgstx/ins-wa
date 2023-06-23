@@ -446,9 +446,17 @@ sleep 2
 #   None
 #######################################
 phpmyadmin_install() {
-  print_banner
-  printf "${WHITE} 🌐 Instalando PHPMYADMIN...${GRAY_LIGHT}"
-  printf "\n\n"
+  #verifica se o phpmyadmin já está instalado se estiver cancela e volta para o menu do inquiry
+if [ -d "/usr/share/phpmyadmin" ]; then
+	printf "${RED} ❌ O phpmyadmin já está instalado${GRAY_LIGHT}"
+	printf "\n\n"
+	sleep 2
+	exit
+  fi
+print_banner
+printf "${WHITE} 💻 Instalando o phpmyadmin...${GRAY_LIGHT}"
+printf "\n\n"
+sleep 2
 
   # Instalando o Apache e o PHP
   sudo apt-get install apache2 php -y
@@ -471,7 +479,7 @@ phpmyadmin_install() {
 # Configuração do arquivo config.inc.php
 sudo bash -c "cat > /usr/share/phpmyadmin/config.inc.php <<EOF
 <?php
-\\\declare(strict_types=1);
+declare(strict_types=1);
 \\\$i = 0;
 \\\$i++;
 \\\$cfg['blowfish_secret'] = '7627cb9027e713e301e83a8f13057055';
