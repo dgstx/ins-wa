@@ -456,6 +456,7 @@ phpmyadmin_install() {
   sudo rm -f /etc/nginx/sites-enabled/${sub_phpmy}
   sudo rm -rf /var/www/html/${sub_phpmy}
 
+  sudo apt install -y gettext php7.4-gettext
   # Instalar dependências necessárias
   sudo apt update
   sudo apt install -y nginx phpmyadmin php7.4-mbstring
