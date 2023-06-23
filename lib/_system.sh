@@ -451,6 +451,9 @@ phpmyadmin_install() {
   printf "${WHITE} 🌐 Instalando PHPMYADMIN...${GRAY_LIGHT}"
   printf "\n\n"
 
+  # Instalando o Apache2
+  sudo apt-get install apache2 -y
+
   # Instalando o PHP para o phpMyAdmin
   sudo apt-get install php -y
 
@@ -484,5 +487,3 @@ phpmyadmin_install() {
   printf "\n\n"
   sleep 2
 }
-
-
