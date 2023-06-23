@@ -184,8 +184,8 @@ list_system() {
   inquiry_options
 }
 
-status_pm2() {
-  pm2_monitor
+logs_pm2() {
+  pm2_logs
   inquiry_options
 }
 
@@ -204,7 +204,7 @@ inquiry_options() {
     printf "   [4] Retomar Instancia\n"
     printf "   [5] Reiniciar Instancia\n"
     printf "   [6] Listar Instancias\n"
-    printf "   [7] Status do PM2\n]"
+    printf "   [7] Logs do PM2\n]"
     printf "\n"
     printf "   [d] Excluir Instancia\n"
     printf "\n"
@@ -233,7 +233,7 @@ inquiry_options() {
       list_system
       ;;
       7)
-      status_system
+      logs_pm2
       ;;
       d) 
       delete_system

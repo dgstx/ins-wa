@@ -581,13 +581,13 @@ pm2_list() {
 # Arguments:
 #   None
 #######################################
-pm2_monitor() {
+pm2_logs() {
   print_banner
   printf "${WHITE} 🌐 Monitorando processos PM2...${GRAY_LIGHT}"
   printf "\n"
   printf "${WHITE} ✅ Monitoramento de processos PM2 realizado com sucesso ...${GRAY_LIGHT}"
   printf "\n\n"
-  sudo -u deploy pm2 monit
+  sudo -u deploy pm2 logs
   #parar até usuario pressionar enter
   read -p "Pressione [Enter] para continuar..."
   sleep 1
