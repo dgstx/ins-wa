@@ -512,20 +512,29 @@ declare(strict_types=1);
 EOF"
 
 
-  # Configuração do Apache
-  sudo sed -i 's/^DocumentRoot \/var\/www\/html/# DocumentRoot \/var\/www\/html/g' /etc/apache2/sites-available/000-default.conf
-  sudo sed -i '$a DocumentRoot \/usr\/share\/phpmyadmin' /etc/apache2/sites-available/000-default.conf
+  # Configuração do Apache (A PROVA DE IDIOTAS)
+  sudo rm -f /etc/apache2/sites-available/000-default.conf
+  sudo bash -c "cat > /etc/apache2/sites-available/000-default.conf <<EOF
+  <VirtualHost *:8080>
+        ServerAdmin webmaster@localhost
+        DocumentRoot /usr/share/phpmyadmin
+        ErrorLog ${APACHE_LOG_DIR}/error.log
+        CustomLog ${APACHE_LOG_DIR}/access.log combined
+</VirtualHost>
+EOF"
+
+  #(substituido)sudo sed -i 's/^DocumentRoot \/var\/www\/html/# DocumentRoot \/var\/www\/html/g' /etc/apache2/sites-available/000-default.conf
+  #(substituido)sudo sed -i '$a DocumentRoot \/usr\/share\/phpmyadmin' /etc/apache2/sites-available/000-default.conf
 
   # Instalação de extensões PHP
   sudo apt-get install php-mysqli php-mbstring -y
 
   # Alterando a porta do Apache para 8080 para evitar conflitos
   sudo sed -i "s/Listen 80/Listen 8080/" /etc/apache2/ports.conf
-  sudo sed -i "s/<VirtualHost \*:80>/<VirtualHost \*:8080>/" /etc/apache2/sites-available/000-default.conf
+  #(substituido)sudo sed -i "s/<VirtualHost \*:80>/<VirtualHost \*:8080>/" /etc/apache2/sites-available/000-default.conf
 
   # Reinicia o Apache
   sudo systemctl restart apache2
-  sudo systemctl status apache2
 
   sleep 1
   print_banner
