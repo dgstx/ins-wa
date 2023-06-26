@@ -347,8 +347,8 @@ system_delete() {
 
   # Lógica para excluir a Instancia, usuário do db, db e processo do pm2
   sudo rm -rf /home/deploy/${instancia_delete}
-  sudo mysql -e "DROP DATABASE IF EXISTS ${instancia_delete};"
-  sudo mysql -e "DROP USER IF EXISTS '${instancia_delete}'@'localhost';"
+  sudo mysql -e "DROP DATABASE ${instancia_delete};"
+  sudo mysql -e "DROP USER '${instancia_delete}'@'localhost';"
   cd && sudo rm -rf /etc/nginx/sites-enabled/${instancia_delete}-frontend
   cd && sudo rm -rf /etc/nginx/sites-enabled/${instancia_delete}-backend  
   cd && sudo rm -rf /etc/nginx/sites-available/${instancia_delete}-frontend
