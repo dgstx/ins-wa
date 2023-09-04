@@ -204,7 +204,7 @@ inquiry_options() {
     printf "   [4] Retomar Instancia\n"
     printf "   [5] Reiniciar Instancia\n"
     printf "   [6] Listar Instancias\n"
-    printf "   [7] Logs do PM2\n]"
+    printf "   [7] Logs do PM2\n"
     printf "\n"
     printf "   [d] Excluir Instancia\n"
     printf "\n"
