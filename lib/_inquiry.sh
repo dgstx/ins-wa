@@ -196,7 +196,7 @@ e_exit() {
 inquiry_options() {
 
     print_banner
-    printf "${WHITE} 💻 Escolha uma das opções!${GRAY_LIGHT}"
+    printf "${WHITE} 💻 Escolha uma das opções:${GRAY_LIGHT}"
     printf "\n\n"
     printf "   [1] Instalar Instancia\n"
     printf "   [2] Atualizar Instancia\n"   

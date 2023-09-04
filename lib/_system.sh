@@ -344,11 +344,15 @@ system_delete() {
 
   printf "${WHITE} 🚮 Excluindo o sistema Wasap de ${instancia_delete}...${GRAY_LIGHT}"
   printf "\n\n"
+  
+  # Solicitar a senha do MySQL
+  printf "Digite a senha do usuário 'root' do MySQL: "
+  read -s mysql_password
 
   # Lógica para excluir a Instancia, usuário do db, db e processo do pm2
   sudo rm -rf /home/deploy/${instancia_delete}
-  sudo mysql -e "DROP DATABASE ${instancia_delete};"
-  sudo mysql -e "DROP USER '${instancia_delete}'@'localhost';"
+  mysql -u root -p"${mysql_password}" -e "DROP DATABASE ${instancia_delete};"
+  mysql -u root -p"${mysql_password}" -e "DROP USER '${instancia_delete}'@'localhost';"
   cd && sudo rm -rf /etc/nginx/sites-enabled/${instancia_delete}-frontend
   cd && sudo rm -rf /etc/nginx/sites-enabled/${instancia_delete}-backend  
   cd && sudo rm -rf /etc/nginx/sites-available/${instancia_delete}-frontend
