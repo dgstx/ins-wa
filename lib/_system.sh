@@ -68,14 +68,15 @@ EOF
 #######################################
 system_node_install() {
   print_banner
-  printf "${WHITE} 💻 Instalando nodejs...${GRAY_LIGHT}"
+  printf "${WHITE} 💻 Instalando nodejs e outras libs...${GRAY_LIGHT}"
   printf "\n\n"
 
   sleep 2
 
   sudo su - root <<EOF
-  curl -fsSL https://deb.nodesource.com/setup_14.x | sudo -E bash -
-  apt-get install -y nodejs
+  curl -fsSL https://deb.nodesource.com/setup_16.x | sudo -E bash -
+  apt-get install -y nodejs 
+  apt install ffmpeg
 EOF
 
   sleep 2
