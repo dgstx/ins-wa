@@ -56,13 +56,18 @@ BACKEND_URL=${backend_url}
 FRONTEND_URL=${frontend_url}
 PROXY_PORT=443
 PORT=${backend_port}
+CHROME_BIN=/usr/bin/google-chrome-stable
 
 DB_HOST=localhost
 DB_DIALECT=mysql
+DB_TIMEZONE=-03:00
 DB_PORT=3306
 DB_USER=${instancia_add}
 DB_PASS=${mysql_root_password}
 DB_NAME=${instancia_add}
+
+PM2_FRONTEND=0
+PM2_BACKEND=1
 
 JWT_SECRET=${jwt_secret}
 JWT_REFRESH_SECRET=${jwt_refresh_secret}
