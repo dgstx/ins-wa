@@ -67,6 +67,10 @@ DB_NAME=${instancia_add}
 JWT_SECRET=${jwt_secret}
 JWT_REFRESH_SECRET=${jwt_refresh_secret}
 
+#ID do PM2 do Frontend e Backend para poder ser restartado na tela de Conexões
+PM2_FRONTEND=
+PM2_BACKEND=
+
 USER_LIMIT=${max_user}
 CONNECTIONS_LIMIT=${max_whats}
 [-]EOF

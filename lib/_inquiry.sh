@@ -94,13 +94,13 @@ get_instancia_up() {
 
 get_repo_wasap() {
   print_banner
-  printf "${WHITE} Repo do sistema Wasap (deixe em branco para usar o padrão: https://github.com/dgstx/press.git): ${GRAY_LIGHT}"
+  printf "${WHITE} Repo do sistema Wasap (deixe em branco para usar o padrão: https://github.com/dgstx/aura.git): ${GRAY_LIGHT}"
   printf "\n\n"
   read -p "> " repo_wasap
 
   # Verifica se o user deixo em branco
   if [[ -z "$repo_wasap" ]]; then
-    repo_wasap="https://github.com/dgstx/press.git"
+    repo_wasap="https://github.com/dgstx/aura.git"
   fi
 }
 

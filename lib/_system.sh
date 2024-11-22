@@ -74,7 +74,7 @@ system_node_install() {
   sleep 2
 
   sudo su - root <<EOF
-  curl -fsSL https://deb.nodesource.com/setup_16.x | sudo -E bash -
+  curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
   apt-get install -y nodejs 
   apt install ffmpeg
 EOF
@@ -167,7 +167,8 @@ system_puppeteer_dependencies() {
                       libappindicator1 \
                       libnss3 \
                       lsb-release \
-                      xdg-utils
+                      xdg-utils \
+                      apt-transport-https
 EOF
 
   sleep 2
