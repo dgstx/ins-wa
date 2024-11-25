@@ -147,8 +147,35 @@ get_urls() {
 software_update() {
   get_instancia_up
   get_repo_wasap
-  frontend_update
-  backend_update
+
+  print_banner
+  printf "${WHITE} 🔄️ Escolha o tipo de atualização que deseja realizar:${GRAY_LIGHT}"
+  printf "\n\n"
+  printf "   [0] Atualização Integral (Frontend e Backend)\n"
+  printf "   [1] Atualizar apenas o Frontend\n"
+  printf "   [2] Atualizar apenas o Backend\n"
+  printf "\n"
+  read -p "> " update_option
+
+  case "${update_option}" in
+    0)
+      frontend_update
+      backend_update
+      ;;
+    1)
+      frontend_update
+      ;;
+    2)
+      backend_update
+      ;;
+    *)
+      printf "${RED} ❌ Opção inválida! Retornando ao menu principal...${GRAY_LIGHT}\n"
+      sleep 2
+      inquiry_options
+      return
+      ;;
+  esac
+
   inquiry_options
 }
 
